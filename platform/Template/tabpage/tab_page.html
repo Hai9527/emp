@@ -1,0 +1,118 @@
+<script language="javascript">
+	$().ready(function(){
+		$('#file_upload').uploadify({
+			'uploader'  : 'common/uploadify/uploadify.swf',
+			'script'    : 'common/uploadify/uploadify.php',
+			'cancelImg' : 'common/uploadify/cancel.png',
+			'folder'    : 'uploads/images',
+			'fileExt'   : '*.jpg;*.png',
+			'fileDesc'  : 'Web Image Files(*.jpg;*.png)',
+			<!-- 'scriptData': {'width':320,'height':480,'mark':'<=','stay':'image'}, -->
+			'scriptData': {'stay':'image'},
+			'auto'      : true,
+			'onComplete'  : function(event, ID, fileObj, response, data) {
+				if(response == '-1'){
+						$('#file_upload').uploadifyClearQueue();
+						alert('The image should be less than 1 MB in PNG and 320px wide by 480px high');return false;
+					}else{
+					$('#icon_image').html('<img src="uploads/images/'+response.split("/").slice(-1)+'" width="80"/>');
+					$('input[name=himage]').val("uploads/images/"+response.split("/").slice(-1));					
+				}
+			}
+		});
+		
+		$('input[name=edit]').click(function() {
+			$('input[name=submit]').removeAttr("disabled");
+			$('input[name=edit]').attr("disabled","disabled");
+		});
+
+		if($("input[name=htemplate]:checked").val() == 0) {
+			$("#background_image").addClass("hide");
+			$(".required").show();
+		}
+		
+		$("input[name=htemplate]").change(function(){
+			if($("input[name=htemplate][value='0']").attr("checked") != "checked") {
+				$("#background_image").removeClass("hide"); $(".required").hide();}
+			else {$("#background_image").addClass("hide"); $(".required").show();}
+		})
+	})
+	
+	/**
+	 *提交表单验证
+	 ***/
+	function pageForm(){
+		if($("input[name=htemplate]:checked").length<1) {$(".msg").text('Please select Layout Type.'); return false; }
+		else if($("input[name=himage]").val() == '' && $("#background_image").css("display")!="none") {
+			$(".msg").text('Please upload Background Image.'); return false; }
+		else if($("#background_image").css("display")=="none" && $("input[name=description_word_count]").val()<=0){ $(".msg").text('Please fill in Html Editor.'); return false;}
+		else return true;
+	}
+</script>
+<div style="font-size:14px;">Layout Type</div>
+
+<div class="app_template">
+<form action="?c=page&a=savePage&tid={#$tid}" onsubmit="return pageForm();" method="post">
+	<table width="100%">
+		<tr>
+			<td width="20%">
+				<input type="radio" name="htemplate" class="radio" value="0"{#if $page_info.htemplate eq 0} checked="checked"{#/if} />1.Full Screen HTML Editor<br />
+				<img src="images/layout01.jpg" alt="" />
+			</td>
+			<td width="20%">
+				<input type="radio" name="htemplate" class="radio" value="1"{#if $page_info.htemplate eq 1} checked="checked"{#/if} />2.Left Column Text Area<br />
+				<img src="images/layout01.jpg" alt="" />
+			</td>
+			<td width="20%">
+				<input type="radio" name="htemplate" class="radio" value="2"{#if $page_info.htemplate eq 2} checked="checked"{#/if} />3.Top Text Area<br />
+				<img src="images/layout01.jpg" alt="" />
+			</td>
+			<td width="20%">
+				<input type="radio" name="htemplate" class="radio" value="3"{#if $page_info.htemplate eq 3} checked="checked"{#/if} />4.Right Column Text Area<br />
+				<img src="images/layout01.jpg" alt="" />
+			</td>
+			<td width="20%">
+				<input type="radio" name="htemplate" class="radio" value="4"{#if $page_info.htemplate eq 4} checked="checked"{#/if} />5.Bottom Text Area<br />
+				<img src="images/layout01.jpg" alt="" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="4">
+				<table class="form">
+					<tr id="background_image">
+						<th valign="top">Background Image*</th>
+						<td>
+							<input type="file" id="file_upload" name="file_upload"/>
+							<input type="hidden" name="himage" value="{#$page_info.himage}" />
+							<div id="icon_image">
+							{#if $page_info.himage neq ""}
+								<img src="{#$page_info.himage}" width="80"/>
+							{#/if}
+							</div>	
+							<span>The image should be less than 1 MB in PNG and 320px wide by 480px high</span>
+						</td>
+						
+					</tr>
+					<tr>
+						<th valign="top">Html Editor<span class="required" style="display:none;">*</span></th>
+						<td><textarea name="hcontent" class="description">{#$page_info.hcontent}</textarea>
+							<input type="hidden" name="description_word_count" value="0" />
+						</td>
+					</tr>
+					<tr>
+						<th></th>
+						<td><input type="submit" value="Save" name="submit" class="input_btn"/>
+							<!-- <input type="button" value="Edit" name="edit" class="input_btn"{#if $tid eq ''} style="display:none;"{#/if} /> -->
+						</td>
+					</tr>
+					<tr>
+						<th></th>
+						<td><p class="msg"></p></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</form>
+</div>
+

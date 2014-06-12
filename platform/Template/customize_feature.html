@@ -1,0 +1,164 @@
+{#extends file='Main.Master.html'}
+{#block name=head}
+	<link rel="stylesheet" href="css/tab.css">
+	<!-- pop up -->
+	<link rel="stylesheet" href="css/colorbox.css" />
+	<script src="js/jquery.colorbox.js"></script>
+	
+	<!-- sortable start -->
+	<link rel="stylesheet" href="js/themes/base/jquery.ui.all.css">
+	<script src="js/ui/jquery.ui.core.js"></script>
+	<script src="js/ui/jquery.ui.widget.js"></script>
+	<script src="js/ui/jquery.ui.mouse.js"></script>
+	<script src="js/ui/jquery.ui.sortable.js"></script>
+	<link rel="stylesheet" href="css/demos.css">
+	<!-- sortable end -->
+	
+	<!-- uploadify start -->
+	<link href="common/uploadify/uploadify.css" type="text/css" rel="stylesheet" />
+	<script type="text/javascript" src="common/uploadify/swfobject.js"></script>
+	<script type="text/javascript" src="common/uploadify/jquery.uploadify.v2.1.4.min.js"></script>
+	<!-- uploadify end -->
+	
+	<!--htmleditor start-->
+	<script charset="utf-8" src="common/kindeditor/kindeditor-min.js"></script>
+	<script charset="utf-8" src="common/kindeditor/lang/zh_CN.js"></script>
+	<!--htmleditor end-->
+	<script type="text/javascript">
+	$().ready(function(){
+		if($('.list tr').length < 3){
+			$('.list tr td .order').hide();
+			$('.list tr td .go').hide();
+		}
+	})
+	
+	$(function() {
+		// sortable
+		$("#sortable li").hover(function(){$(this).find("a.close").show();},function(){$(this).find("a.close").hide();});
+	
+		$( "#sortable" ).sortable({items: "li:not(.ui-state-disabled)", opacity: 0.6, cursor: 'move', border: "1px dashed #D3D3D3",update: updateSort});
+		$( "#sortable" ).disableSelection();
+		
+		// colorbox
+		$(".iframe").colorbox({iframe:true});
+		
+		//change order go button
+		$('.go').bind('click',function(){goSort($(this))});
+		
+		/***下一页按钮***/
+		$(".next").hover(function(){
+			$("#draw").html("Click here to next step.");
+		},function(){
+			$("#draw").html("");
+		})
+		
+		$(".back").hover(function(){
+			$("#draw").html("Click here to previous step.");
+		},function(){
+			$("#draw").html("");
+		})
+	})
+	
+	/**
+	 *文本框
+	 ***/
+	KindEditor.ready(function(K) {
+		editor = K.create('.description', {
+			width : '500px',
+			height : '200px',
+			allowFileManager : true,
+			afterChange : function() {
+				K('input[name=description_word_count]').val(this.count('text'));
+			}
+		});
+	})
+	function updateSort(){
+		var tab_arr = new Array();
+		$("li:not(.ui-state-disabled)").each(function(){
+			tab_arr.push($(this).attr("alt"));
+		})
+		$.get("?c=tab&a=sortTab",{tab_arr:tab_arr,aid:{#$aid}});
+	}
+	
+	/**
+	 *删除Feature
+	 ***/
+	function deleteTab(tid, ob){
+		if(confirm("Are you sure to delete this feature?")){
+			$.get("?c=tab&a=changeStatus",{tid:tid},function(data){
+				ob.parent().remove();
+			})
+		}		
+	}
+	
+	/**
+	 *改变order
+	 ***/
+	function goSort(ob){
+		$('.go').unbind();
+		var parent = ob.parent();
+		var oldOrder = parent.find(".number").text();
+		var newOrder = parent.find("input[name=order]").val();
+		if(oldOrder!=newOrder && newOrder != '' && 0 < newOrder && newOrder <= {#$count|default:0}){
+			$.get("?c={#$app_tab_info.fnname}&a=goSort",
+				{oldOrder:oldOrder, newOrder:newOrder, id:parent.find("input[name=id]").val(), tid:parent.find("input[name=tid]").val(), aid: {#$aid}},
+				function(data){
+					//alert(data);
+					window.location="?c=main&a=create&step=customize_feature&aid={#$aid}&tid="+parent.find("input[name=tid]").val()+"&page="+data;
+				}
+			);
+		}
+		else if( newOrder <= 0 ||  newOrder > {#$count|default:0} ){
+			alert("Order number should be between 1 to {#$count}.");
+			$('.go').bind('click',function(){goSort($(this))});
+			return false;
+		}
+		else{
+			alert("Unknown error.");
+			$('.go').bind('click',function(){goSort($(this))});
+			return false;
+		}
+	}
+	</script>
+{#/block}
+{#block name=content}
+
+	<div id="container">
+	
+		{#include file="Header.html"}
+		<div class="breadcrumb">
+			<p class="nav"><span style="font-size:18px;font-weight:bold;">Step 4 -- Customize Feature</span></p>
+		</div>
+	
+		{#include file="Course.html"}
+		
+		<div id="divBody">
+			
+			{#include file="Tab.html"}
+			
+			<div class="content">
+				<!-- <div class="breadcrumb">
+					<p class="nav"><a href="index.php">Home</a> > <a href="index.php">My Apps</a> > <span>{#$app_tab_info.tname|default:'Loadding Page'}</span></p>
+					<h2 class="title">{#$app_tab_info.tname|default:'Home'|upper}</h2> 					
+				</div>-->
+				
+				<div class="content_p load">
+					{#include file="tabpage/tab_`$app_tab_info.fnname|default:"page"`.html"}
+				</div>
+				
+			</div>
+			<p style="text-align: right">
+					<a href="?c=main&a=create&step=add_feature&aid={#$aid}" class="button back">Back</a>
+					<a href="?c=main&a=create&step=customize_appearance&aid={#$aid}" class="button next">Next</a>
+					
+					<div class="clear"></div>
+			</p>
+			<p id="draw" style="text-align: right; height:15px;"></p>	
+		</div>	
+		
+		<div class="clear"></div>
+		
+		{#include file="Footer.html"}
+	
+	</div>
+{#/block}

@@ -1,0 +1,12 @@
+<script charset="utf-8" src="common/kindeditor/kindeditor-min.js"></script>
+<script charset="utf-8" src="common/kindeditor/lang/zh_CN.js"></script>
+<script charset="utf-8">
+	KindEditor.ready(function(K) {
+		editor = K.create('textarea[name="content_html"]', {
+			width : '500px',
+			height : '300px',
+			allowFileManager : true
+		});
+	});
+</script>
+<textarea name="content_html"></textarea>

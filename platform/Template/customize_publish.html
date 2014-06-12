@@ -1,0 +1,111 @@
+{#extends file='Main.Master.html'}
+{#block name=head}
+<script language="javascript">
+	function checkApp(aid, astatus){
+		var text;
+		text = (parseInt(astatus) == 3)? 'The revisions will be reflected directly in the app once App User reconnects to internet. Are you sure to submit the changes?':'Please confirm the app basic information showing on this page and if any changes in future, you need to submit a new app once it\'s live. If sure now, click "OK" to submit. Otherwise, click "Cancel" to save it as Draft for editing.';
+		if(window.confirm(text)){
+			window.location.href = "?c=main&a=create&step=complete&aid="+aid+"&answer=1";
+		}else{
+			//window.location.href = "?c=main&a=create&step=complete&aid="+aid+"&answer=0";
+			window.location.href = "?c=main";
+		}
+	}
+</script>
+{#/block}
+{#block name=content}
+
+	<div id="container">
+	
+		{#include file="Header.html"}
+		<div class="breadcrumb">
+			<p class="nav"><span style="font-size:18px;font-weight:bold;">Step 6 -- Publish</span></p>
+		</div>
+	
+		{#include file="Course.html"}
+		
+		<div id="divBody">
+			
+			<div class="content">
+			
+				<div class="breadcrumb">
+					<!-- <p class="nav"><a href="index.php">Home</a> > <a href="index.php">My Apps</a> > <span>{#$step}</span></p>-->
+					<h2 class="title">Overview</h2>
+					<p style="color:red;"></p>
+                    <!--<p style="color:red;">(Please confirm the following app information before submitting this app and kindly noted that changes of all these require resubmission of the app once it's live. )</p>-->
+				</div> 
+				
+				<div class="content_p">
+					
+					<table class="form">
+						<tr>
+							<th>App Name*</th>
+							<td>{#$application_info.aname}</td>
+						</tr>
+						
+						<tr>
+							<th>App Icon for Android Device/Market*</th>
+							<td><img width="80" src="{#$application_info.aicon}" alt=""></td>
+						</tr>
+						
+						<tr>
+							<th>Loading Image*</th>
+							<td><img width="80" src="{#$application_info.aload_image}" alt=""></td>
+						</tr>
+
+						<tr>
+							<th>Description*</th>
+							<td>{#$application_info.adescription}</td>
+						</tr>
+						<!-- <tr>
+							<th></th>
+							<td><input type="button" value="SUBMIT" class="input_btn" onclick="checkApp({#$aid});" />
+							</td>
+						</tr> -->
+						<tr>
+							<th>Sina Weibo Account</th>
+							<td>{#$application_info.weibo_name}</td>
+						</tr>
+						<tr>
+							<th>Sina Weibo Consumer Key</th>
+							<td>{#$application_info.weibo_key}</td>
+						</tr>
+						<tr>
+							<th>Sina Weibo Consumer Secret</th>
+							<td>{#$application_info.weibo_secret}</td>
+						</tr>
+					</table>
+					
+				</div>
+				<div id="message">
+					{#if $noneNull eq 1}<p style="color:#FF0000;font-weight:bold;">Problem Spots<br/></p><span style="color:#FF0000;">(You'll need to make up these things before we launch your app.)</span>{#/if}
+					<table class="form problem">
+					{#if $noneNull eq 1}
+					{#if $tab_content neq ""}
+					{#foreach from=$tab_content item=item key=key}
+						<tr>
+							<th>{#$item.tname}</th>
+							<td>You have added nothing to {#$item.tname} feature. Please go to customize it or just set it as inactive in the Feature List in Step 3.</td>
+						</tr>
+					{#/foreach}
+					{#/if}{#/if}
+						<tr>
+							<th></th>
+							<td>
+                            	<input type="button" value="SUBMIT" class="input_btn" onclick="checkApp({#$aid}, {#$application_info.astatus});"/>
+							</td>
+						</tr>
+					</table>
+				
+				</div>
+				
+			</div>
+
+		</div>	
+		
+		<div class="clear"></div>
+		
+		{#include file="Footer.html"}
+	
+	</div>
+{#/block}

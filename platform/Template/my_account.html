@@ -1,0 +1,162 @@
+{#extends file='Main.Master.html'}
+{#block name=head}
+	<script charset="utf-8">
+		function accountform(){
+			check_email();
+			if($("input[name=acfname]").val() == '') {$(".msg").text('Please fill in the First Name.'); return false; }
+			else if($("input[name=aclname]").val()=='') {$(".msg").text('Please fill in the Last Name.'); return false; } 
+			else if($("input[name=acname]").val() == '') {$(".msg").text('Please fill in the UserName.'); return false; } 
+			else if($("input[name=acemail]").val()!="" && !/.+@.+\.[a-zA-Z]{2,4}$/.test($("input[name=acemail]").val()) ) {$(".msg").text('Please fill the E-mail in correct format.'); return false; }
+			else if(check_email() != 't'){
+				$(".msg").text('The Email address has been registered.')
+				return false;
+			}
+			else if($('.c_passwd').attr('checked') == 'checked'){
+				if($("input[name=acopasswd]").val() == '') {$(".msg").text('Please fill in the correct Current Password.'); return false; }
+				else if(checkOldPasswd() != 1){$(".msg").text('Please make sure you enter the correct Current Password.'); return false; }
+				else if($("input[name=acpasswd]").val() == '') {$(".msg").text('Please fill in the New Password.'); return false; }
+				else if(!($("input[name=acpasswd]").val().length >= 8 && 
+						 $("input[name=acpasswd]").val().match(/[0-9]+/) && 
+						 $("input[name=acpasswd]").val().match(/[a-zA-Z]+/) && 
+						 $("input[name=acpasswd]").val().match(/[^\w]+/))) 
+				{$(".msg").text('The password should be at lest in 8 characters consisting of letter, number, & symbol.'); return false; }
+				else if($("input[name=repeat_acpasswd]").val() != $("input[name=acpasswd]").val()) {$(".msg").text('Confirm New Password does not match New Password.'); return false; }
+				else return true;
+			}	
+			else return true;
+		}
+		
+		/**
+		 *检查原密码是否正确
+		 ***/
+		function checkOldPasswd(){
+			var result = 0;
+			$.ajax({
+			   type: "POST",
+			   async: false,
+			   url: "?c=account&a=checkPasswd&acid="+$("input[name=acid]").val()+"&acpasswd="+$("input[name=acopasswd]").val(),
+			   success: function(data){
+					result = data;
+			   }
+			});	
+			return result;
+		}
+		
+		/**
+		 *修改密码
+		 ***/
+		function c_passwd(){
+			if($('.c_passwd').attr('checked') == 'checked'){
+				$('.passwd_input').show();
+			}else{
+				$('.passwd_input').hide();
+				$(".msg").text('');
+				$("input[name=acopasswd]").val('');
+				$("input[name=acpasswd]").val('');
+				$("input[name=repeat_acpasswd]").val('');
+			}
+		}
+		
+		/**
+		 *检查email是否存在相同
+		 ***/
+		function check_email(){
+			var result = 't';
+			var n_email = $('.new_email').val();
+			var o_email = $('.old_email').val();
+			//alert(acid);
+			if(n_email != o_email){
+				$.ajax({
+				   type: "POST",
+				   async: false,
+				   data:{acemail:n_email},
+				   url: "?c=account&a=check_email",
+				   success: function(data){
+						result = data;
+				   }
+				});	
+				return result;
+			}else{
+				return result;
+			}
+		}
+	</script>
+{#/block}
+{#block name=content}
+
+	<div id="container">
+	
+		{#include file="Header.html"}
+		
+		<div id="divBody">
+			
+			<div class="content">
+			
+				<div class="breadcrumb"><h2>My Account</h2></div>
+				
+				<div class="content_p">
+					<form action="?c=account&a=updateAccount" method="post" onsubmit="return accountform();">
+						<input type="hidden" class="acid" name="acid" value="{#$account_info.acid}" />
+						<h3 style="font-size: 16px; margin: 15px 0 10px;">Basic Info</h3>
+						<table class="form">
+							<tr>
+								<th valign="top">First Name *</th>
+								<td><input type="text" name="acfname" value="{#$account_info.acfname}"/></td>
+							</tr>
+							<tr>
+								<th valign="top">Last Name *</th>
+								<td><input type="text" name="aclname" value="{#$account_info.aclname}"/></td>
+							</tr>
+							<tr>
+								<th valign="top">Username *</th>
+								<td><input type="text" name="acname" value="{#$account_info.acname}"/></td>
+							</tr>
+							<tr>
+								<th valign="top">Email Address *</th>
+								<td>
+                                	<input type="text" class="new_email" name="acemail" value="{#$account_info.acemail}" />
+                                    <input type="hidden" value="{#$account_info.acemail}" class="old_email" />
+                                    <span class="same_email" style="color:#F00; font-size:12px;"></span>
+                                </td>
+							</tr>
+						</table>
+						<h3 style="font-size: 16px; margin: 15px 0 10px;">
+                            <span>Change Password</span>
+                            <input type="checkbox" class="c_passwd" style="width:20px; margin-left:15px; margin-left:10px\9; border:1px #FFF solid;" onclick="c_passwd()"/>
+                        </h3>
+						<table class="form">
+							<tr class="passwd_input">
+								<th valign="top">Current Password</th>
+								<td><input type="text" name="acopasswd" value="" onkeyup="this.value=this.value.replace(' ','');"/></td>
+							</tr>
+							<tr class="passwd_input">
+								<th valign="top">New Password</th>
+								<td><input type="text" name="acpasswd" value="" onkeyup="this.value=this.value.replace(' ','');"/><br/>(The password should be at lest in 8 characters consisting of letter, number, & symbol.)</td>
+							</tr>
+							<tr class="passwd_input">
+								<th valign="top">Confirm New Password </th>
+								<td><input type="text" name="repeat_acpasswd" onkeyup="this.value=this.value.replace(' ','');"/><br/>(Please retype the new password.)</td>
+							</tr>
+							<tr>
+								<th></th>
+								<td><input type="submit" value="SUBMIT" name="submit" class="input_btn" />
+								</td>
+							</tr>	
+							<tr>
+								<th></th>
+								<td><p class="msg"></p></td>
+							</tr>
+						</table>
+					</form>
+				</div>
+				
+			</div>
+
+		</div>	
+		
+		<div class="clear"></div>
+		
+		{#include file="Footer.html"}
+	
+	</div>
+{#/block}

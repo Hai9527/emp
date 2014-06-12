@@ -1,0 +1,110 @@
+<script language="javascript">
+	$().ready(function(){
+		$('#file_upload').uploadify({
+			'uploader'  : 'common/uploadify/uploadify.swf',
+			'script'    : 'common/uploadify/uploadify.php',
+			'cancelImg' : 'common/uploadify/cancel.png',
+			'folder'    : 'uploads/images',
+			'fileExt'   : '*.png',
+			'fileDesc'  : 'Web Image Files(*.png)',
+			<!-- 'scriptData': {'width':480,'height':123,'mark':'<=','stay':'image'}, -->
+			'scriptData': {'stay':'image'},
+			'auto'      : true,
+			'onComplete'  : function(event, ID, fileObj, response, data) {
+					if(response == '-1'){
+						$('#file_upload').uploadifyClearQueue();
+						alert('The image should be less than 1 MB in PNG and 320px wide by 182px high.');return false;
+					}else{
+					$('#icon_image').html('<img src="uploads/images/'+response.split("/").slice(-1)+'" width="25" height="25"/>');
+					$('input[name=eimage]').val("uploads/images/"+response.split("/").slice(-1));					
+				}
+			}
+		});
+	})
+	
+	/**
+	 *提交表单验证
+	 ***/	
+	function pageEditForm(){
+		if($("input[name=etitle]").val()=='') {$(".msg").text('Please fill in Title field.'); return false; }
+		/*else if($("input[name=etitle]").val().length > 15) {$(".msg").text('The Title field must be less than 15 character.'); return false; }*/
+		else if($("input[name=eimage]").val()=='') {$(".msg").text('Please upload Image.'); return false; }
+		else if($("input[name=estart_time]").val()=='') {$(".msg").text('Please fill in Start Time field.'); return false; }
+		else if($("input[name=eend_time]").val()=='') {$(".msg").text('Please fill in End Time field.'); return false; }
+		else if($("input[name=eend_time]").val() < $("input[name=estart_time]").val()) {$(".msg").text('The End Time should be no later than the Start Time.'); return false; }
+		else if($("input[name=eholster]").val()=='') {$(".msg").text('Please fill in Host.'); return false; }
+		else if($("input[name=ephone]").val()=='') {$(".msg").text('Please fill in Phone.'); return false; }
+		else if($("input[name=email]").val()=='') {$(".msg").text('Please fill in Email.'); return false; }
+		else if( $("input[name=email]").val()!="" && !/.+@.+\.[a-zA-Z]{2,4}$/.test($("input[name=email]").val())){$(".msg").html("Please fill the E-mail in correct format.");return false;}
+		else if($("input[name=elocation]").val()=='') {$(".msg").text('Please fill in Location.'); return false; }
+		/*else if($("textarea[name=edescription]").val()==''&& $("input[name=content_word_count]").val()<=0) {$(".msg").text('Please fill in Event Description.'); return false; }*/
+		else if($("input[name=content_word_count]").val()<=0) {$(".msg").text('Please fill in Event Description.'); return false; }
+		else return true;
+	}
+	
+</script>
+<table class="form">
+	<tr>
+		<th>Title*</th>
+		<td><input type="text" name="etitle" value="{#$event_info.etitle}" /></td>
+	</tr>
+	<tr>
+		<th>Image *</th>
+		<td>
+			<input type="file" id="file_upload" name="file_upload"/>
+			<input type="hidden" name="eimage" value="{#$event_info.eimage}" />
+			<div id="icon_image">
+			{#if $event_info.eimage neq ""}
+				<img src="{#$event_info.eimage}" width="25" height="25"/>
+			{#/if}
+			</div>
+			<span>(The image should be less than 1 MB in PNG and 320px wide by 182px high.)</span>
+		</td>
+	</tr>
+	<tr>
+		<th>Start Time*</th>
+		<td><input type="text" name="estart_time" value="{#$event_info.estart_time}" onclick="SelectDate(this,'yyyy-MM-dd hh:mm')" readonly="readonly" /></td>
+	</tr>
+	<tr>
+		<th>End Time*</th>
+		<td><input type="text" name="eend_time" value="{#$event_info.eend_time}" onclick="SelectDate(this,'yyyy-MM-dd hh:mm')" readonly="readonly" /></td>
+	</tr>
+	<tr>
+		<th>Host*</th>
+		<td><input type="text" name="eholster" value="{#$event_info.eholster}" /></td>
+	</tr>
+	<tr>
+		<th>Phone*</th>
+		<td><input type="text" name="ephone" value="{#$event_info.ephone}" /></td>
+	</tr>
+	<tr>
+		<th>Email*</th>
+		<td><input type="text" name="email" value="{#$event_info.email}" /></td>
+	</tr>
+	<tr>
+		<th>Location*</th>
+		<td><input type="text" name="elocation" value="{#$event_info.elocation}" /></td>
+	</tr>
+	<tr>
+		<th valign="top">Event Description*</th>
+		<td><textarea name="edescription" id="content">{#$event_info.edescription}</textarea>
+		<input type="hidden" name="content_word_count" value="0" />
+		</td>
+	</tr>
+	<tr>
+		<th>Status*</th>
+		<td>
+		<p><input type="radio" name="estatus" value="1" class="radio" style="border: 0;"{#if $event_info.estatus eq 1 || $event_info.estatus eq ''} checked="checked"{#/if} /><label>Active</label>
+			<input type="radio" name="estatus" value="0" class="radio" style="border: 0;"{#if $event_info.estatus eq 0 && $event_info.estatus neq ''} checked="checked"{#/if} /><label>Inactive</label>
+		</p>
+		</td>
+	</tr>
+	<tr>
+		<th></th>
+		<td><input type="submit" value="Save" class="input_btn" /></td>
+	</tr>					
+	<tr>
+		<th></th>
+		<td><p class="msg"></p></td>
+	</tr>					
+</table>

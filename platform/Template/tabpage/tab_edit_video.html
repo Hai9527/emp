@@ -1,0 +1,108 @@
+<script language="javascript">
+	$().ready(function(){
+		$('#file_upload').uploadify({
+			'uploader'  : 'common/uploadify/uploadify.swf',
+			'script'    : 'common/uploadify/uploadify.php',
+			'cancelImg' : 'common/uploadify/cancel.png',
+			'folder'    : 'uploads/images',
+			'fileExt'   : '*.png',
+			'fileDesc'  : 'Web Image Files(*.png)',
+			<!-- 'scriptData': {'width':320,'height':150,'mark':'<=','stay':'image'}, -->
+			'scriptData': {'stay':'image'},
+			'auto'      : true,
+			'onComplete'  : function(event, ID, fileObj, response, data) {
+					if(response == '-1'){
+						$('#file_upload').uploadifyClearQueue();
+						alert('The image should be less than 1 MB in PNG and 320px wide by 150px high.');return false;
+					}else{
+					$('#icon_image').html('<img src="uploads/images/'+response.split("/").slice(-1)+'" width="25" height="25"/>');
+					$('input[name=vicon]').val("uploads/images/"+response.split("/").slice(-1));					
+				}
+			}
+		});
+		
+		$('#file_upload2').uploadify({
+			'uploader'  : 'common/uploadify/uploadify.swf',
+			'script'    : 'common/uploadify/uploadify.php',
+			'cancelImg' : 'common/uploadify/cancel.png',
+			'folder'    : 'uploads/video',
+			'fileExt'   : '*.mp4',
+			'fileDesc'  : 'Web Audio Files(*.MP4)',
+			'scriptData': {'stay':'video'},
+			'auto'      : true,
+			'onComplete'  : function(event, ID, fileObj, response, data) {
+					$('#icon_video').html('<img src="images/video.jpg" width="25" height="25"/>');
+					$('input[name=video]').val("uploads/video/"+response.split("/").slice(-1));					
+			}
+		});	
+	})
+	
+	/**
+	 *提交表单验证
+	 ***/
+	function pageEditForm(){
+		if($("input[name=vname]").val()=='') {$(".msg").text('Please fill in Title field.'); return false; }
+		/*else if($("input[name=vname]").val().length > 15) {$(".msg").text('The Title field must be less than 15 character.'); return false; }*/
+		else if($("input[name=vicon]").val() == '') {$(".msg").text('Please upload Image.'); return false; }
+		else if($("input[name=video]").val() == '') {$(".msg").text('Please upload Video.'); return false; }
+		/*else if($("textarea[name=vcaption]").val() == ''&& $("input[name=content_word_count]").val()<=0) {$(".msg").text('Please fill in Video Detail.'); return false; }*/
+		else if($("input[name=content_word_count]").val()<=0) {$(".msg").text('Please fill in Video Detail.'); return false; }
+		else return true;
+	}
+</script>
+<table class="form">
+	<tr>
+		<th>Title*</th>
+		<td><input type="text" name="vname" value="{#$video_info.vname}" /></td>
+	</tr>
+	<tr>
+		<th>Image*</th>
+		<td>
+			<input type="file" id="file_upload" name="file_upload"/>
+			<input type="hidden" name="vicon" value="{#$video_info.vicon}" />
+			<div id="icon_image">
+			{#if $video_info.vicon neq ""}
+				<img src="{#$video_info.vicon}" width="25" height="25"/>
+			{#/if}
+			</div>		
+			<span>(The image should be less than 1 MB in PNG and 320px wide by 150px high.)</span>
+		</td>
+	</tr>
+	<tr>
+		<th>Upload Video*</th>
+		<td>
+			<input type="file" id="file_upload2" name="file_upload2"/>
+			<input type="hidden" name="video" value="{#$video_info.video}"/>
+			<div id="icon_video">
+			{#if $video_info.video neq ""}
+				<img src="images/video.jpg" width="25" height="25"/>
+			{#/if}
+			</div>	
+			<span>(The video should be MP4 in Progressive Streamable Format .)</span>
+		</td>
+	</tr>
+	<tr>
+		<th valign="top">Video Detail *</th>
+		<td><textarea name="vcaption" id="content">{#$video_info.vcaption}</textarea>
+			<input type="hidden" name="content_word_count" value="0" />
+		</td>
+	</tr>
+	<tr>
+		<th valign="top">Downloadable</th>
+		<td><input type="checkbox" name="vis_download" class="checkbox" {#if $video_info.vis_download eq 1} checked="checked"{#/if} value="1"/></td>
+	</tr>
+	<tr>
+		<th>Status*</th>
+		<td><p><input type="radio" name="vstatus" value="1" class="radio" style="border: 0;"{#if $video_info.vstatus eq 1 || $video_info.vstatus eq ''} checked="checked"{#/if} /><label>Active</label>
+			<input type="radio" name="vstatus" value="0" class="radio" style="border: 0;"{#if $video_info.vstatus eq 0 && $video_info.vstatus neq ''} checked="checked"{#/if} /><label>Inactive</label>
+		</p></td>
+	</tr>
+	<tr>
+		<th></th>
+		<td><input type="submit" value="Save" class="input_btn" /></td>
+	</tr>					
+	<tr>
+		<th></th>
+		<td><p class="msg"></p></td>
+	</tr>					
+</table>

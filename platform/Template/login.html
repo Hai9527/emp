@@ -1,0 +1,116 @@
+{#extends file='Main.Master.html'}
+{#block name=head}
+<script language="javascript">
+	/**
+	 *提交表单验证
+	 ***/
+	function formCheck(){
+		if($("input[name=acname]").val() == ''){
+			$(".msg").html('Please fill in username');
+			return false;
+		}else if($("input[name=acpasswd]").val() == ''){
+			$(".msg").html('Please fill in password');
+			return false;
+		}else if(checkPasswd() == 0){
+			$(".msg").html('Please fill in correct username and password.');
+			return false;
+		}else if(checkPasswd() == 2){
+			$(".msg").html('Your account is not activated.');
+			return false;
+		}else if(verificationCheck() != 1){
+			$(".msg").html('Verification Code is wrong');
+			return false;
+		}else	return true;
+	}
+	
+	/**
+	 *
+	 ***/
+	function verificationCheck(){
+		var result = 0;
+		$.ajax({type:"get",
+				async:false,
+				url:"?c=log&a=checkVerificationCode",
+				data:"yzm="+$("input[name=verification]").val(),
+				success:function(data){result = data; }
+		})	
+		return result;
+	}
+	
+	/**
+	 *检验密码
+	 ***/
+	function checkPasswd(){
+		var result = 0;
+		$.ajax({type:"get",
+				async:false,
+				url:"?c=log&a=checkPasswd",
+				data:"acname="+$("input[name=acname]").val()+"&acpasswd="+$("input[name=acpasswd]").val(),
+				success:function(data){result = data; }
+		})	
+		return result;
+	}
+</script>
+{#/block}
+{#block name=content}
+
+	<div id="container">
+	
+		{#include file="Header.html"}
+	
+		<div id="divBody">
+			
+			<div class="content">
+			
+				<div class="breadcrumb">
+					<h2 class="title">Login Page</h2>					
+				</div>
+				
+				<div class="content_p">
+				
+					<form action="?c=log&a=dologin" onsubmit="return formCheck()" method="post">
+						
+						<table class="form">						
+							<tr>							
+								<th>Username</th>
+								<td><input type="text" name="acname" value=""></td>
+							</tr>
+							
+							<tr>
+								<th>Password</th>
+								<td><input type="password" name="acpasswd" value="">
+									<a href="?c=log&a=forgotpassword" style="display: block; margin-top: 5px;">Forgot Password</a>
+								</td>
+							</tr>
+							
+							<tr>
+								<th>Verification code</th>
+								<td><input type="text" name="verification" value=""></td>
+							</tr>
+							<tr>
+								<th></th>
+								<td><img src="?c=log&a=getImg" alt="" onmousedown="this.src='?c=log&a=getImg&t='+(new Date().getTime());" />&nbsp;&nbsp;
+									<a href="javascript:;" onclick="$(this).prev().attr('src', '?c=log&a=getImg&t='+(new Date().getTime()))">看不清,换一张</a>
+								</td>
+							</tr>
+							<tr>
+								<th>&nbsp;</th>						
+								<td><input type="submit" value="Login" class="input_btn"/>
+									<input type="reset" value="Reset" class="input_btn" />
+								</td>
+							</tr>	
+							
+						</table>	
+						
+						<p class="msg"></p>
+						
+					</form>
+				
+				</div>				
+			</div>
+		</div>			
+		<div class="clear"></div>		
+		{#include file="Footer.html"}
+	
+	</div>
+{#/block}

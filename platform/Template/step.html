@@ -1,0 +1,14 @@
+{#extends file='Main.Master.html'}
+{#block name=head}
+<!--color box-->
+	<link rel="stylesheet" href="css/colorbox.css" />
+	<script src="js/jquery.colorbox.js"></script>
+	<script charset="utf-8" type="text/javascript">
+		$().ready(function() {
+				$(".note").colorbox({iframe:true,open:true,onClosed:function(){ history.go(-1);}});
+		})
+	</script>
+{#/block}
+{#block name=content}
+	<a href="?c=main&a=step_note&aid={#$appid}&step={#$cstep}" class="note" style="display:none;">aa</a>
+{#/block}

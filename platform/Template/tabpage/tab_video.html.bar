@@ -1,0 +1,100 @@
+<script type='text/javascript'>
+		function toggle_view(){
+			$('#original_table').fadeToggle(500);
+			$('#edit_form').slideToggle(500);
+		}
+		
+		function set_values(o_t,f_t,keys,t){
+			if(t)
+			{
+				for(var i=0,j=keys.length,key="";i<j;i++)
+				{
+					key="[name='"+keys[i]+"']";
+					f_t.find(key).val(o_t.find(key).html());
+				}
+				f_t.find("[name='vid']").val(o_t.find("[name='vid']").html());
+			}
+			else
+			{
+				for(var i=0,j=keys.length,key="";i<j;i++)
+				{
+					key="[name='"+keys[i]+"']";
+					f_t.find(key).val('');
+				}
+				f_t.find("[name='vid']").val('');
+			}
+		}
+		
+		function take_form(o,t){
+			var $this;
+			if(t){$this=$(o).parents('tr');}
+			var keys=['vorder','vname','vsize','vis_download','vstatus'];
+			set_values($this,$('#edit_form'),keys,t);
+			toggle_view();
+		}
+	</script>
+<p class="btn"><a class="button" href="">Create Video 	</a></p>
+<table id='original_table' class="list">
+<tr><td><input type='button' value='new' style='cursor:pointer;' onclick='take_form(this,0);' /></td></tr>
+	<tr>
+		<th>Order</th>
+		<th>ID</th>
+		<th>Title</th>
+		<th>Size</th>
+		<th>Downloadable</th>
+		<th>Stauts</th>
+		<th>Action</th>
+	</tr>
+	{#if $video_list neq ""}
+	{#foreach from=$video_list item=item key=key}
+	<tr>							
+		<td align="center" name="vorder">{#$item.vorder}</td>
+		<td name="vid">{#$item.vid}</td>
+		<td name="vname">{#$item.vname}</td>
+		<td name="vsize">{#$item.vsize}</td>
+		<td name="vis_download">{#$item.vis_download}</td>
+		<td name="vstatus">{#$item.vstatus}</td>
+		<td><a href="javascript:;" onclick='take_form(this,1)' class="button">Edit</a>&nbsp;&nbsp;&nbsp;<a href="" onclick="return confirm('Are you sure delete this record.')" class="button">Delete</a></td>					
+	</tr>
+	{#foreachelse}
+	<tr>							
+		<td colspan="7">没有搜索到任何结果!</td>
+	</tr>	
+	{#/foreach}	
+	{#/if}
+</table>
+<div id='edit_form' style='display:none;'>
+	<input type='button' value='back' style='cursor:pointer;' onclick='toggle_view()' />
+		<form action="{#$action}" method="post">
+						<table class="form">
+						<input type='hidden' name='vid'>
+						<tr>
+								<th>vorder *</th>
+								<td><input type="text" name="vorder" /><br><span>(Less than 13 characters.)</span></td>
+							</tr>
+							<tr>
+								<th>Name *</th>
+								<td><input type="text" name="vname" /><br><span>(Less than 13 characters.)</span></td>
+							</tr>
+							<tr>
+								<th>size *</th>
+								<td><input type="text" name="vsize"  /><br><span></span></td>
+							</tr>
+							<tr>
+								<th>vis_download *</th>
+								<td><input type="text" name="vsize"  /><br><span></span></td>
+							</tr>
+							<tr>
+								<th>vstatus *</th>
+								<td><input type="text" name="vsize"  /><br><span></span></td>
+							</tr>
+							<tr>
+								<th></th>
+								<td><input type="submit" value="SUBMIT" class="input_btn"{#if $app_info.aid neq ''} disabled="disabled"{#/if} />
+									<input type="button" value="Edit" name="edit" class="input_btn"{#if $app_info.aid eq ''} style="display:none;"{#/if} />
+								</td>
+							</tr>					
+						</table>
+					</form>
+	</div>
+	

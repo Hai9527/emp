@@ -1,0 +1,256 @@
+{#extends file='Main.Master.html'}
+{#block name=head}
+{#/block}
+{#block name=content}
+<script language="javascript">
+/**
+ *提交表单验证
+ */
+function form_check(){
+    if($("input[name=acfname]").val()=="")
+	{
+		$(".msg").html("Please fill in the First Name.");
+		return false;
+	}
+	else if($("input[name=aclname]").val()=="")
+	{
+		$(".msg").html("Please fill in the Last Name.");
+		return false;
+	}
+	else if($("input[name=acname]").val()=="")
+	{
+		$(".msg").html("Please fill in the Username.");
+		return false;
+	}
+	else if($("input[name=acemail]").val()=="")
+	{
+		$(".msg").html("Please fill in the Email Address.");
+		return false;
+	}
+	else if(check_email() != 't'){
+		$(".msg").text('The Email address has been registered.')
+		return false;
+	}
+	else if( $("input[name=acemail]").val()!="" && !/.+@.+\.[a-zA-Z]{2,4}$/.test($("input[name=acemail]").val()) )
+	{
+		$(".msg").html("Please fill the E-mail in correct format.");
+		return false;
+	}
+	else{
+		if($('.stay').val() == 'edit'){
+			if($('.c_passwd').attr('checked') == 'checked'){
+				return c_passwd();
+			}
+		}else{
+			return c_passwd();
+		}
+	}
+}
+
+/**
+ *检查密码
+ */
+function c_passwd(){
+	if($('.stay').val() == 'edit'){
+			var html_v = 'Please fill in the New Password.';
+		}else{
+			var html_v = 'Please fill in the Password.';
+		}
+	if($("input[name=acpasswd]").val() == '') {$(".msg").html(html_v); return false; }
+	else if(!($("input[name=acpasswd]").val().length >= 8 && 
+			 $("input[name=acpasswd]").val().match(/[0-9]+/) && 
+			 $("input[name=acpasswd]").val().match(/[a-zA-Z]+/) && 
+			 $("input[name=acpasswd]").val().match(/[^\w]+/))) 
+	{$(".msg").html('The password should be at lest in 8 characters consisting of letter, number, & symbol.'); return false; }
+	else if($("input[name=repeat_acpasswd]").val() != $("input[name=acpasswd]").val()) {$(".msg").text('Confirm New Password does not match New Password.'); return false; }
+	else return true;
+}
+
+/**
+ *检验Email
+ */
+function check_email(){
+	var result = 't';
+	var n_email = $('.new_email').val();
+	var o_email = $('.old_email').val();
+	//alert(acid);
+	if(n_email != o_email){
+		$.ajax({
+		   type: "POST",
+		   async: false,
+		   data:{acemail:n_email},
+		   url: "?c=account&a=check_email",
+		   success: function(data){
+				result = data;
+		   }
+		});	
+		return result;
+	}else{
+		return result;
+	}
+}
+
+/**
+ *勾选修改密码是出现填写框，米有则隐藏
+ */
+function change_passwd(){
+	if($('.c_passwd').attr('checked') == 'checked'){
+		$('.passwd_input').show();
+	}else{
+		$('.passwd_input').hide();
+		$(".msg").text('');
+		$("input[name=acopasswd]").val('');
+		$("input[name=acpasswd]").val('');
+		$("input[name=repeat_acpasswd]").val('');
+	}
+}
+
+/*function clear_p(){
+	alert('ok');
+	$(this).val().replace(" ","");
+}*/
+</script>
+	
+	<div id="container">
+	
+		{#include file="Header.html"}
+		<div id="divBody">
+			<div class="content">
+				<div class="breadcrumb">
+					<p class="nav"><!-- <a href="admin_user">Admin Homepage</a> >  --><span><a href="?c=admin_user">User Management</a></span> > <span> {#$title}</span></p>
+					<h2 class="title">{#$title}</h2>					
+				</div>
+				<form action="{#$action}" method="post" onsubmit="return form_check();">
+					{#if $acid}
+                    	<input type="hidden" value="{#$acid}" name="acid" class="acid" />
+                        <input type="hidden" value="edit" class="stay"/>
+                    {#else}
+                    	<input type="hidden" value="add" class="stay"/>
+                    {#/if}
+					<table class="create_form">
+						<tr>
+							<th>First Name *</th>
+							<td><input type="text" name="acfname" value="{#$user_info.acfname}"/></td>
+						</tr>
+						<tr>
+							<th>Last Name *</th>
+							<td><input type="text" name="aclname" value="{#$user_info.aclname}"/></td>
+						</tr>
+						<tr>
+							<th>Username *</th>
+							<td><input type="text" name="acname" value="{#$user_info.acname}" onfocus="if($('input[name=acfname]').val()!='' && $('input[name=aclname]').val()!='') $(this).val($('input[name=acfname]').val().toLowerCase()+$('input[name=aclname]').val().toLowerCase())"/></td>
+						</tr>
+						<tr>
+							<th>User Type *</th>
+							<td><select name="actype">
+								<option value="1" {#if $user_info.actype eq 1} selected="selected"{#/if}>Admin</option>
+								<option value="0" {#if $user_info.actype eq 0} selected="selected"{#/if}>App Creator</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<th>Email Address *</th>
+							<td>
+                            	<input type="text" class="new_email" name="acemail" value="{#$user_info.acemail}"/>
+                            	<input type="hidden" value="{#$user_info.acemail}" class="old_email" />
+                                <span class="same_email" style="color:#F00; font-size:12px;"></span>
+                            </td>
+						</tr>
+                        {#if $acid}
+                        <tr>
+							<th>Password *</th>
+							<td>
+                            	<input type="text" value="{#$user_info.acpasswd}" disabled="disabled"/>
+                            	<input type="hidden" name="old_passwd" value="{#$user_info.acpasswd}"/>
+                            </td>
+						</tr>
+                        <tr>
+                        	<td><h3 style="font-size: 16px; margin: 15px 0 10px;">Change Password</h3></td>
+                            <td><input type="checkbox" class="c_passwd" style=" width:auto; border:none;" onclick="change_passwd()"/></td>
+                        </tr>
+						<tr class="passwd_input">
+							<th>New Password</th>
+							<td><input type="text" name="acpasswd" value="" onkeyup="this.value=this.value.replace(' ','');"/><br/>(The password should be at lest in 8 characters consisting of letter, number, & symbol.)</td>
+						</tr>
+						<tr class="passwd_input">
+							<th>Confirm Password</th>
+							<td><input type="text" name="repeat_acpasswd" value="" onkeyup="this.value=this.value.replace(' ','');"/><br/>(Please retype the new password.)</td>
+						</tr>
+                        {#else}
+						<tr>
+							<th>Password *</th>
+							<td><input type="text" name="acpasswd" value="" onkeyup="this.value=this.value.replace(' ','');"/><br/>(The password should be at lest in 8 characters consisting of letter, number, & symbol.)</td>
+						</tr>
+						<tr>
+							<th>Confirm Password *</th>
+							<td><input type="text" name="repeat_acpasswd" value="" onkeyup="this.value=this.value.replace(' ','');"/><br/>(Please retype the new password.)</td>
+						</tr>
+                        {#/if}
+						<tr>
+							<th>Status *</th>
+							<td><p><input type="radio" name="acstatus" value="1" {#if $user_info.acstatus eq 1 || $user_info.acstatus eq ''} checked="checked"{#/if} class="radio" style="border: 0;"/><label>Active</label>
+								<input type="radio" name="acstatus" value="0" {#if $user_info.acstatus eq 0 && $user_info.acstatus neq ''} checked="checked"{#/if} class="radio" style="border: 0;"/><label>Inactive</label>
+							</p>
+							</td>
+						</tr>
+						<tr>
+							<th></th>
+							<td><input type="submit" value="SUBMIT" class="input_btn" style="margin-top: 20px;"/></td>
+						</tr>
+						<tr>
+							<th></th>
+							<td><p class="msg"></p></td>
+						</tr>
+					</table>
+				
+				</form>
+				{#if $acid}
+				<div style="margin-top:30px;">
+				<h2 class="title">App(s) Created</h2>
+				<div class="content_p" style="margin-top:15px;">
+					<table class="list">
+						<tr>
+							<th>ID</th>
+							<th>App Name</th>
+							<th>Status </th>
+							<th>Date Submitted</th>
+							<th>Date Approved</th>
+							<th>Action </th>
+							<!-- <th>Preview</th> -->
+							<th>Online Link</th>
+						</tr>
+						{#foreach from=$user_app item=item key=key}
+						<tr>							
+							<td align="center">{#$item.aid}</td>
+							<td>{#$item.aname}</td>
+							<td>
+							{#if $item.astatus eq 1}Submitted{#/if}
+							{#if $item.astatus eq 0}Draft{#/if}
+							{#if $item.astatus eq 2}Processed{#/if}
+							{#if $item.astatus eq 3}Approved{#/if}
+							{#if $item.astatus eq -1}Disapproved{#/if}
+							<!-- {#if $item.astatus eq 1}
+							{#else}Inactive 
+							{#/if}-->
+							</td>
+							<td>{#if $item.astatus neq 0}{#$item.asumbit_time}{#/if}</td>
+							<td>{#if $item.astatus eq 3}{#$item.aapproved_time}{#/if}</td>
+							<td><a href="?c=admin_app&a=edit_app&aid={#$item.aid}" class="button">Change Status</a>&nbsp;&nbsp;<a href="?c=main&a=create&step=basic_info&aid={#$item.aid}&do=edit" class="button">Edit</a></td>
+							<!-- <td><a href="">view</a></td> -->
+							<td>{#if $item.astatus eq 3}{#$item.aonline_link|mb_truncate:30:"..."}{#/if}</td>
+						</tr>
+						{#foreachelse}
+						<tr>							
+							<td align="center" colspan="8">No apps are created by this user currently.</td>
+						</tr>
+						{#/foreach}
+					</table>
+					</div>
+				</div>
+				{#/if}
+			</div>
+			
+		</div>
+		{#include file="Footer.html"}
+	</div>	
+{#/block}

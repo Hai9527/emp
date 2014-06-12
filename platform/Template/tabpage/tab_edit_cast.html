@@ -1,0 +1,110 @@
+<script language="javascript">
+	$().ready(function(){
+		$('#file_upload').uploadify({
+			'uploader'  : 'common/uploadify/uploadify.swf',
+			'script'    : 'common/uploadify/uploadify.php',
+			'cancelImg' : 'common/uploadify/cancel.png',
+			'folder'    : 'uploads/images',
+			'fileExt'   : '*.png',
+			'fileDesc'  : 'Web Image Files(*.png)',
+			<!-- 'scriptData': {'width':283,'height':333,'mark':'<=','stay':'image'}, -->
+			'scriptData': {'stay':'image'},
+			'auto'      : true,
+			'onComplete'  : function(event, ID, fileObj, response, data) {
+					if(response == '-1'){
+						$('#file_upload').uploadifyClearQueue();
+						alert('The image should be less than 1 MB in PNG and 283px wide by 333px high.');return false;
+					}else{
+					$('#icon_image').html('<img src="uploads/images/'+response.split("/").slice(-1)+'" width="25" height="25"/>');
+					$('input[name=cicon]').val("uploads/images/"+response.split("/").slice(-1));					
+				}
+			}
+		});
+		
+		$('#file_upload2').uploadify({
+			'uploader'  : 'common/uploadify/uploadify.swf',
+			'script'    : 'common/uploadify/uploadify.php',
+			'cancelImg' : 'common/uploadify/cancel.png',
+			'folder'    : 'uploads/images',
+			'fileExt'   : '*.png',
+			'fileDesc'  : 'Web Image Files(*.png)',
+			<!-- 'scriptData': {'width':320,'height':182,'mark':'<=','stay':'image'}, -->
+			'scriptData': {'stay':'image'},
+			'auto'      : true,
+			'onComplete'  : function(event, ID, fileObj, response, data) {
+					if(response == '-1'){
+						$('#file_upload2').uploadifyClearQueue();
+						alert('The image should be less than 1 MB in PNG and 320px wide by 182px high.');return false;
+					}else{
+					$('#icon_image2').html('<img src="uploads/images/'+response.split("/").slice(-1)+'" width="25" height="25"/>');
+					$('input[name=cimage]').val("uploads/images/"+response.split("/").slice(-1));					
+				}
+			}
+		});
+	})
+	
+	/**
+	 *提交表单验证
+	 ***/
+	function pageEditForm(){
+		if($("input[name=cname]").val()=='') {$(".msg").text('Please fill in Title field.'); return false; }
+		/*else if($("input[name=cname]").val().length > 15) {$(".msg").text('The Title field must be less than 15 character.'); return false; }*/
+		else if($("input[name=cicon]").val()=='') {$(".msg").text('Please upload Thumbnail.'); return false; }
+		else if($("input[name=cimage]").val()=='') {$(".msg").text('Please upload Image.'); return false; }
+		/*else if($("textarea[name=ccontent]").val()=='' && $("input[name=content_word_count]").val()<=0) {$(".msg").text('Please fill in Page Detail.'); return false; }*/
+		else if($("input[name=content_word_count]").val()<=0 ){$(".msg").text('Please fill in Page Detail.'); return false; }
+		else return true;
+	}
+</script>
+<table class="form">
+	<tr>
+		<th>Title*</th>
+		<td><input type="text" name="cname" value="{#$cast_info.cname}" /></td>
+	</tr>
+	<tr>
+		<th>Thumbnail*</th>
+		<td>
+			<input type="file" id="file_upload" name="file_upload"/>
+			<input type="hidden" name="cicon" value="{#$cast_info.cicon}" />
+			<div id="icon_image">
+			{#if $cast_info.cicon neq ""}
+				<img src="{#$cast_info.cicon}" width="25" height="25"/>
+			{#/if}
+			</div>
+			<span>(The image should be less than 1 MB in PNG and 283px wide by 333px high.)</span>
+		</td>
+	</tr>
+	<tr>
+		<th>Image *</th>
+		<td>
+			<input type="file" id="file_upload2" name="file_upload2"/>
+			<input type="hidden" name="cimage" value="{#$cast_info.cimage}" />
+			<div id="icon_image2">
+			{#if $cast_info.cimage neq ""}
+				<img src="{#$cast_info.cimage}" width="25" height="25"/>
+			{#/if}
+			</div>
+			<span>(The image should be less than 1 MB in PNG and 320px wide by 182px high and it will show in the Detail Page.)</span>
+		</td>
+	</tr>
+	<tr>
+		<th valign="top">Page Detail *</th>
+		<td><textarea name="ccontent" id="content">{#$cast_info.ccontent}</textarea>
+		<input type="hidden" name="content_word_count" value="0" />
+		</td>
+	</tr>
+	<tr>
+		<th>Status*</th>
+		<td><p><input type="radio" name="cstatus" value="1" class="radio" style="border: 0;"{#if $cast_info.cstatus eq 1 || $cast_info.cstatus eq ''} checked="checked"{#/if} /><label>Active</label>
+			<input type="radio" name="cstatus" value="0" class="radio" style="border: 0;"{#if $cast_info.cstatus eq 0  && $cast_info.cstatus neq ''} checked="checked"{#/if} /><label>Inactive</label>
+		</p></td>
+	</tr>
+	<tr>
+		<th></th>
+		<td><input type="submit" value="Save" class="input_btn" /></td>
+	</tr>					
+	<tr>
+		<th></th>
+		<td><p class="msg"></p></td>
+	</tr>					
+</table>

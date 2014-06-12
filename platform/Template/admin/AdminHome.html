@@ -1,0 +1,88 @@
+{#extends file='Main.Master.html'}
+{#block name=head}
+<script language="javascript" src="js/admin.js"></script>
+<script language="javascript">
+function changestatic(ob,acid,statustext){
+		if(window.confirm('Are you sure you want to change the status?')){
+			//alert("|"+statustext+"|");
+			var acstatus = (statustext == "Inactive")?0:1;
+			$.get("?c=admin_user&a=change_status",{acid:acid,acstatus:acstatus},
+			function(data){ var datahtml = (data == 0)? "Inactive":"Active"; ob.parent().prev().html(datahtml)})
+		}
+	}
+</script>
+{#/block}
+{#block name=content}
+
+	<div id="container">
+		{#include file="Header.html"}
+		<div id="divBody">
+			<div class="content">
+				<div class="breadcrumb">
+					<p class="nav"><!-- <a href="?c=admin_user">Admin Homepage</a> >  --><span><a href="?c=admin_user">User Management</a></span> > <span> User List</span></p>
+					<h2 class="title">User List</h2>					
+				</div>
+				<div class="search">
+					<!--h3><a href="javascript:void();" onclick="toggleShow($(this));"><span>-</span>&nbsp;Search</a></h3-->
+					<form action="" method="post" >
+					<p style="margin: 5px 0;"><label>Username/Email:&nbsp;</label><input type="text" name="keyword" value="{#$keyword}" />&nbsp;&nbsp;&nbsp;
+						<label>User Type:&nbsp;</label><select style="width:130px;" name="actype">
+								<option value="">---choose---
+								<option value="1"{#if $actype eq 1} selected="selected"{#/if}>Admin
+								<option value="0"{#if $actype eq 0 && $actype neq ''} selected="selected"{#/if}>App Creator 
+						</select>
+						<input type="submit" value="Search" style="width:100px;"/></p/>
+						<!--span>(The keywords entered here should be based on username or email.)</span-->
+					</p>
+					</form>
+				</div>
+				<div>
+					<p class="btn">
+						<a class="iframe button" href="?c=admin_user&a=edit_user">Create User</a>&nbsp;&nbsp;
+						<a class="iframe button" href="?c=export&a=exportAllUser">Export All Users</a>
+					</p>
+				</div>
+				
+				
+					<div class="content_p">
+						<table class="list">
+							<tr>
+								<th>ID</th>
+								<th>User Name</th>
+								<th>Email</th>
+								<th>User Type</th>
+								<th>Status </th>
+								<th>Change Status</th>
+								<th>Action</th>
+							</tr>
+							{#if $userlist neq ""}
+							{#foreach from=$userlist item=item key=key}
+							<tr>							
+								<td align="center">{#$item.acid}</td>
+								<td>{#$item.acname}</td>
+								<td>{#$item.acemail}</td>
+								<td>{#if $item.actype eq 0}App Creator{#elseif $item.actype eq 1}Admin{#/if}</td>
+								<td>{#if $item.acstatus eq 0}Inactive{#elseif $item.acstatus eq 1}Active{#/if}</td>
+								<td><a class="iframe button" href="javascript:" onclick="changestatic($(this),{#$item.acid},$(this).parent().prev().html())">Change</a></td>
+								<td><a href="?c=admin_user&a=edit_user&acid={#$item.acid}" class="button">Edit</a>&nbsp;&nbsp;&nbsp;<a href="?c=admin_user&a=deleteUser&acid={#$item.acid}" onclick="return window.confirm('Are you sure you want to delete this record?')"  class="button">Delete</a></td>
+														
+							</tr>
+							{#foreachelse}
+							<tr>							
+								<td colspan="7" style="text-align:center;">There is no associated results now.</td>
+							</tr>
+							{#/foreach}						
+							{#/if}
+						</table>
+						<div class="page"><div class="pageshow">{#$show_page}</div></div>
+				</div>
+				<!-- <p class="btn" style="margin-top:20px;"><a class="iframe button" href="">< Prev</a>&nbsp;&nbsp;<a class="iframe button" href="">Next ></a></p> -->
+				
+			</div>
+		</div>
+		{#include file="Footer.html"}
+		
+		
+	</div>
+	
+{#/block}

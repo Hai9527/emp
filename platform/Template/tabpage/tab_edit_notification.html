@@ -1,0 +1,44 @@
+<script language="javascript">
+	function pageEditForm(){
+		if($("input[name=nsubject]").val()=='') {$(".msg").text('Please fill in Title field.'); return false; }
+		/*else if($("input[name=nsubject]").val().length > 15) {$(".msg").text('The Title field must be less than 15 character.'); return false; }*/
+		else if($("textarea[name=ncontent]").val()=='') {$(".msg").text('Please fill in Detail.'); return false; }
+		else if($("textarea[name=ncontent]").val().length > 140) {$(".msg").text('The Detail must be less than 140 characters.');return false; } 
+		else return true;
+	}
+</script>
+<table class="form">
+	<tr>
+		<th>Title *</th>
+		<td><input type="text" name="nsubject" value="{#$notification_info.nsubject}"{#if $notification_info neq ''} style="border: 0;" readonly="readonly"{#/if} /></td>
+	</tr>
+	<tr>
+		<th valign="top">Detail *</th>
+		<td>
+			<textarea name="ncontent" style="width: 500px; height: 200px;{#if $notification_info neq ''}border: 0;{#/if}"{#if $notification_info neq ''} readonly="readonly"{#/if}>{#$notification_info.ncontent}</textarea>
+			{#if $notification_info eq ''}<p>(Less than 140characters.)</p>{#/if}
+		</td>
+	</tr>
+	<tr>
+		<th></th>
+		<td><input type="submit" value="Save" class="input_btn"{#if $notification_info neq ''} style="display:none;"{#/if} /></td>
+	</tr>					
+	<tr>
+		<th></th>
+		<td><p class="msg"></p></td>
+	</tr>					
+</table>
+
+<!-- <table class="form">
+	<tr>
+		<th>Title *</th>
+		<td>{#$notification_info.nsubject}</td>
+	</tr>
+	<tr>
+		<th valign="top">Detail *</th>
+		<td>
+			{#$notification_info.ncontent}
+		</td>
+	</tr>
+					
+</table> -->

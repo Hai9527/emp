@@ -1,0 +1,28 @@
+<p class="btn"><a class="iframe button" href="?c=notification&a=editNotification&&tid={#$tid}">Add New</a></p>
+<table class="list">
+	<tr>
+		<th>ID</th>
+		<th>Title</th>
+		<th>Date</th>
+		<th>Action</th>
+	</tr>
+	{#if $notification_list neq ""}
+	{#foreach from=$notification_list item=item key=key}
+	<tr>							
+		<td align="center">{#$item.nid}</td>
+		<td>{#$item.nsubject|mb_truncate:13:"..."}</td>
+		<td>{#$item.ncreate_time}</td>
+		<!-- <td>{#$item.ncontent}</td> -->
+		<td><a href="?c=notification&a=editNotification&nid={#$item.nid}" class="iframe button">View</a>&nbsp;&nbsp;&nbsp;<a href="?c=notification&a=deleteNotification&nid={#$item.nid}" onclick="confirm('Are you sure delete this record.')" class="button">Delete</a></td>					
+	</tr>
+	{#foreachelse}
+	<tr>							
+		<td colspan="4">There is no records currently.</td>
+	</tr>	
+	{#/foreach}	
+	{#/if}
+
+</table>
+<div class="page">
+	<div class="pageshow">{#$show_page}</div>
+</div>

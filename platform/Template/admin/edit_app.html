@@ -1,0 +1,183 @@
+{#extends file='Main.Master.html'}
+{#block name=head}
+<script language="javascript">
+	$().ready(function(){
+	
+		$(".drawable").click(function(){
+			$(".msg").text("");
+			if($(this).attr("class").indexOf("disable") !== -1) return false;
+			$(".drawable").each(function(){$(this).attr("class", $(this).attr("class").replace("_select",""));})
+			if($(this).attr("class").indexOf("select") !== -1) $(this).attr("class", $(this).attr("class").replace("_select",""));
+			else $(this).attr("class", $(this).attr("class")+"_select"); 
+			$("input[name=astatus]").val($(this).attr("alt"));
+			
+			$("#reject_reasons, #online_link").addClass("hide");
+			if($(this).attr("alt") == -1) $("#reject_reasons").removeClass("hide");
+			else $("#reject_reasons").val("");
+			
+			if($(this).attr("alt") == 3) $("#online_link").removeClass("hide");
+			
+		})
+		/*if($("input[name=astatus]:checked").val() == -1) $("#reject_reasons").removeClass("hide");
+		
+		if($("input[name=astatus]:checked").val() == 3) $("#online_link").removeClass("hide");
+		
+		
+		$("input[name=astatus]").change(function(){if($("input[name=astatus][value='-1']").attr("checked") == "checked") $("#reject_reasons").removeClass("hide"); else $("#reject_reasons").addClass("hide"); })
+		
+		
+		$("input[name=astatus]").change(function(){if($("input[name=astatus][value='3']").attr("checked") == "checked") $("#online_link").removeClass("hide"); else $("#online_link").addClass("hide"); })
+		
+		
+		$("input[name=astatus]:lt(2)").click(function(){return false;});*/
+	})
+	
+	function pageEditForm(){
+		//if($("textarea[name=anmessage]").val()=='' && $("input[name=astatus]:checked").val() == "-1") {alert('get ok');$(".msg").text('Please fill in the Reason of Disapproval.'); return false; }
+		//else{alert('get without -1');
+		//}
+		<!-- else if($("input[name=aonline_link]").val()=='' && $("input[name=astatus]:checked").val() == 3) {$(".msg").text('Please fill in the Reason of Disapproval.'); return false; } -->
+		//return false;
+		var astatus_checked=$("input[name=astatus]").val(),ret=true;
+		switch(astatus_checked)
+		{
+			case "-1":
+				if($("textarea[name=anmessage]").val()==''){ret=false;$(".msg").text('Please fill in the Reason of Disapproval.');}
+				break;
+			case "3":
+				if($("input[name=aonline_link]").val()==''){ret=false;$(".msg").text('Please fill in Online Link.');}
+				break;
+			default:
+				break;
+		}
+		return ret;
+		}
+</script>
+{#/block}
+{#block name=content}
+
+	<div id="container">
+	
+		{#include file="Header.html"}
+		<div id="divBody">
+			<div class="content">
+				<div class="breadcrumb">
+					<p class="nav"><!-- <a href="?c=admin_user">Admin Homepage</a> >  --><span><a href="?c=admin_app">App Management</a></span> > <span>Change Status</span></p>
+					<h2 class="title">Change Status</h2>					
+				</div>
+				<form action="?c=admin_app&a=update" method="post" onsubmit="return pageEditForm();">
+					<input type="hidden" name="aid" value="{#$aid}" />
+					<input type="hidden" name="fastatus" value="{#$app_info.astatus}" />
+					<input type="hidden" name="fonlinelink" value="{#$app_info.aonline_link}" />
+					<table class="create_form">
+						<tr>
+							<th style="width: 18%;">App Name</th>
+							<td>{#$app_info.aname}</td>
+						</tr>
+						<tr>
+							<th>App Creator</th>
+							<td>{#$app_info.acname}</td>
+						</tr>
+						<tr>
+							<th>Status</th>
+							<td>
+								<span alt="0" class="drawable radio_disable{#if $app_info.astatus eq 0}_select{#/if}">Draft</span>
+								<span alt="1" class="drawable radio_disable{#if $app_info.astatus eq 1}_select{#/if}">Submitted</span>
+								<span alt="2" class="drawable radio_able{#if $app_info.astatus eq 2}_select{#/if}">Processed</span>
+								<span alt="3" class="drawable radio_able{#if $app_info.astatus eq 3}_select{#/if}">Approved</span>
+								<span alt="-1" class="drawable radio_able{#if $app_info.astatus eq -1}_select{#/if}">Disapproved</span>
+								<input type="hidden" name="astatus" value="{#$app_info.astatus}" />
+								<!--<input type="radio" name="astatus" class="radio" value="0" style=""{#if $app_info.astatus eq 0} checked="checked"{#/if}/>Draft&nbsp;&nbsp;
+								<input type="radio" name="astatus" class="radio" value="1"{#if $app_info.astatus eq 1} checked="checked"{#/if}/>Submitted&nbsp;&nbsp;
+								<input type="radio" name="astatus" class="radio" value="2"{#if $app_info.astatus eq 2} checked="checked"{#/if}/>Processed&nbsp;&nbsp;
+								<input type="radio" name="astatus" class="radio" value="3"{#if $app_info.astatus eq 3} checked="checked"{#/if}/>Approved&nbsp;&nbsp;
+								<input type="radio" name="astatus" class="radio" value="-1"{#if $app_info.astatus eq -1} checked="checked"{#/if}/>Disapproved!-->
+							</td>
+						</tr>
+						<tr>
+							<th>Date Created</th>
+							<td>{#$app_info.acreate_time}</td>
+						</tr>
+						<tr>
+							<th>Date Submitted</th>
+							<td>{#$app_info.asumbit_time}</td>
+						</tr>
+						<tr>
+							<th>Date Approved</th>
+							<td>{#if $app_info.astatus eq 3}{#$app_info.aapproved_time}{#/if}</td>
+						</tr>
+						<tr>
+							<th>Date Disapproved</th>
+							<td>{#if $app_info.astatus eq -1}{#$app_info.aapproved_time}{#/if}</td>
+						</tr>
+						<tr class="{#if $app_info.astatus neq -1}hide{#/if}" id="reject_reasons">
+							<th valign="top">Reasons of Disapproval *</th>
+							<td><textarea name="anmessage">{#*{#$note_list[{#($note_list|@count)-1}].anmessage}*}</textarea></td>
+						</tr>
+						<tr id="online_link" class="{#if $app_info.astatus neq 3}hide{#/if}">
+							<th>Online Link *</th>
+							<td><input type="text" name="aonline_link" value="{#$app_info.aonline_link}"/></td>
+						</tr>
+						<tr>
+							<th></th>
+							<td><input type="submit" value="Save Change" class="input_btn" style="margin-top: 20px;"/></td>
+						</tr>
+						<tr>
+							<th></th>
+							<td><p class="msg"></p></td>
+						</tr>					
+					</table>
+					
+				</form>
+				
+				
+				<!-- <div class="note">
+					<h2>Main Features Selected</h2>
+					<table class="list">
+						<tr>
+							<th>Features Selected</th>
+							<th>Customized Feature Name</th>
+						</tr>
+						{#foreach from=$app_tab_list item=item}
+						<tr>
+							<td>{#$item.fntitle}</td>
+							<td>{#$item.tname}</td>
+						</tr>
+						{#foreachelse}
+						<tr>
+							<td colspan="2" style="text-align:center;">Search no result.</td>
+						</tr>
+						{#/foreach}
+					
+					</table>
+				</div> -->
+				<div class="note">
+					<h2>Edition History</h2>
+					<table class="list">
+						<tr>
+							<th>Date Modified</th>
+							<!-- <th>ID</th> -->
+							<th>UserName</th>
+							<th>Change</th>
+							<th>Message</th>
+						</tr>
+						{#foreach from=$note_list item=item}
+						<tr>
+							<!-- <td>{#$item.anid}</td> -->
+							<td>{#$item.ancreate_time}</td>
+							<td>{#$item.acname}</td>
+							<td>{#$item.annote}</td>
+							<td>{#$item.anmessage}</td>
+							
+						</tr>
+						{#foreachelse}
+						<tr><td colspan="5">There is no associated results now.</td></tr>
+						{#/foreach}			
+					</table>
+				</div>
+			</div>
+			
+		</div>
+		{#include file="Footer.html"}
+	</div>
+{#/block}

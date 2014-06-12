@@ -1,0 +1,82 @@
+{#extends file='Main.Master.html'}
+{#block name=head}
+{#/block}
+{#block name=content}
+
+	<div id="container">
+	
+		{#include file="Header.html"}
+	
+		<div id="divBody">
+			
+			<div class="content">
+			
+				<div class="breadcrumb">
+					<!-- <p class="nav"><a href="index.php">Home</a> > <span>My Apps</span></p> -->
+					<!-- <p class="nav">My Apps</p> -->
+					<h2 class="title">My Apps</h2>					
+				</div>
+				
+				<div class="content_p">
+					
+					<p class="btn"><a href="?c=main&a=create&step=basic_info" class="button">Create App</a></p>
+					
+					<table class="list">
+						
+						<tr>
+							
+							<th>ID</th>
+							<th>App Name</th>
+							<th>Status</th>
+							<th>Date Submitted</th>
+							<th>Date Approved</th>
+							<th>Action</th>
+							<th>Comment Feedback</th>
+							<th>Online Link</th>
+						
+						</tr>
+					 	{#if $list neq ""}
+						{#foreach from=$list item=item key=key}
+						<tr>							
+							<td align="center">{#$item.aid}</td>
+							<td>{#$item.aname}</td>
+							<td>
+								{#if $item.astatus eq 0}Draft
+								{#elseif $item.astatus eq 1}Submitted
+								{#elseif $item.astatus eq 2}Processed
+								{#elseif $item.astatus eq 3}Approved
+								{#elseif $item.astatus eq -1}Disapproved{#/if}								
+							</td>
+							<td>{#if $item.astatus neq 0}{#$item.asumbit_time}{#/if}</td>
+							<td>{#if $item.astatus eq 3}{#$item.aapproved_time}{#/if}</td>
+							<td>
+
+								<a href="?c=main&a=create&step=basic_info&aid={#$item.aid}&do=edit" class="button{#if $item.astatus eq 1 or $item.astatus eq 2 or $item.astatus eq -1} disabled{#/if}">Edit</a>&nbsp;&nbsp;
+
+								<!-- <a {#if $item.astatus eq 1}href="javascript:void(0);" onclick="chick()"{#else if} href="?c=main&a=create&step=basic_info&aid={#$item.aid}&do=edit"{#/if} class="button">Edit</a>&nbsp;&nbsp;-->
+								<a href="?c=application&a=delete&aid={#$item.aid}" onclick="return window.confirm('Are you sure you want to delete this record?')" class="button">Delete</a>&nbsp;&nbsp;
+								
+							</td>
+							<td><a href="?c=comment&aid={#$item.aid}" class="button">View Comment</a></td>						
+							<td>{#if $item.astatus eq 3}{#$item.aonline_link|mb_truncate:30:"..."}{#/if}</td>						
+						</tr>
+						{#foreachelse}
+						<tr>							
+							<td colspan="7" style="text-align: center;">There is no app currently.</td>
+						</tr>
+						{#/foreach}						
+						{#/if}				
+					</table>
+					<div class="page"><div class="pageshow">{#$show_page}</div></div>
+				</div>
+				
+			</div>
+
+		</div>	
+		
+		<div class="clear"></div>
+		
+		{#include file="Footer.html"}
+	
+	</div>
+{#/block}

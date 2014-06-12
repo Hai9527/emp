@@ -1,0 +1,26 @@
+<table class="list">
+	<tr>
+		<th>ID</th>
+		{#foreach from=$form_view_list item=vlitem}
+		<th>{#$vlitem.fv_title}</th>
+		{#/foreach}
+		<th>Action</th>
+	</tr>
+	
+	{#foreach from=$form_list item=item key=key}
+	{#if $item}
+	<tr>
+		<td>{#$item.lid}</td>
+		{#foreach from=$form_view_list item=vitem}
+		<td>{#$item['lform_text'].{#$vitem.fv_name}}</td>
+		{#/foreach}
+		<td><a href="?c=form&a=deleteForm&lid={#$item.lid}" onclick="confirm('Are you sure delete this record.')" class="button">delete</a></td>
+	</tr>
+	{#/if}
+	{#foreachelse}
+	<tr>							
+		<td colspan="{#$form_view_list|@count}">There is no associated data currently.</td>
+	</tr>	
+	{#/foreach}
+
+</table>

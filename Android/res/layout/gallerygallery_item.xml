@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <!--
+         <ImageView android:scaleType="fitXY" android:layout_width="210dip" 
+		android:id="@+id/gallerygallery_item_imageView" android:layout_height="wrap_content"></ImageView>
+    -->
+
+    <ImageView
+        android:id="@+id/gallerygallery_item_imageView"
+        android:layout_width="200dip"
+        android:layout_height="220dip"
+        android:scaleType="fitXY" >
+    </ImageView>
+    <!--
+        <ImageView android:scaleType="fitXY" android:layout_width="100dip"
+		android:id="@+id/gallerygallery_item_imageView" android:layout_height="120dip"></ImageView>
+    -->
+    <!--
+        <ImageView android:layout_width="fill_parent" android:layout_weight="1" 
+		android:id="@+id/gallerygallery_item_imageView" android:layout_height="fill_parent" 
+		android:src="@drawable/icon" android:scaleType="fitXY"></ImageView>
+    -->
+
+    <TextView
+        android:id="@+id/gallerygallery_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="18dip" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/gallerygallery_item_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="18dip" >
+    </TextView>
+
+</LinearLayout>

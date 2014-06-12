@@ -1,0 +1,53 @@
+<p class="btn"><a class="iframe button" href="?c=music&a=editMusic&tid={#$tid}">Add New</a></p>
+<table class="list">
+	<tr>
+		<th width="12%">Order</th>
+		<th>ID</th>
+		<th>Title</th>
+		<th>Size</th>
+		<th>Downloadable</th>
+		<th>Total"View"</th>
+		<th>Total"Like"</th>
+		<th>Total"Comment"</th>
+		<th>Status</th>
+		<th width="15%">Action</th>
+	</tr>
+	{#if $music_list neq ""}
+	{#foreach from=$music_list item=item key=key}
+	<tr>							
+		<td align="center">
+			<span class="number">{#$offset + $key + 1}</span>
+			<input type="hidden" value="{#$item.mid}" name="id" />
+			<input type="hidden" value="{#$item.tid}" name="tid" />
+			<input type="text" name="order" class="order" />&nbsp;&nbsp;
+			<a href="javascript:;" onclick="" class="button go">GO</a>
+		</td>
+		<td>{#$item.mid}</td>
+		<td>{#$item.mname|mb_truncate:13:"..."}</td>
+		<td>{#($item.msize/(1024*1024))|string_format:"%.2f"}MB</td>
+		<td>
+			{#if $item.mis_download eq 0}No
+			{#elseif $item.mis_download eq 1}Yes
+			{#/if}
+		</td>
+		<td>{#$item.players_num}</td>
+		<td>{#$item.likes_num}</td>
+		<td>{#$item.comments_num}</td>
+		<td>
+			{#if $item.mstatus eq 0}Inactive
+			{#elseif $item.mstatus eq 1}Active
+			{#/if}
+		</td>
+		<td><a href="?c=music&a=editMusic&mid={#$item.mid}" class="iframe button">Edit</a>&nbsp;&nbsp;&nbsp;<a href="?c=music&a=deleteMusic&mid={#$item.mid}" onclick="return confirm('Are you sure delete this record.')" class="button">Delete</a></td>					
+	</tr>
+	{#foreachelse}
+	<tr>							
+		<td colspan="7">There is no records currently.</td>
+	</tr>	
+	{#/foreach}	
+	{#/if}
+
+</table>
+<div class="page">
+	<div class="pageshow">{#$show_page}</div>
+</div>

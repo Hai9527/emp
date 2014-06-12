@@ -1,0 +1,338 @@
+{#extends file='Main.Master.html'}
+{#block name=head}
+	<!-- color start -->
+	<link rel="stylesheet" href="css/color.css">
+	<link rel="stylesheet" href="css/appearance.css">
+	<script type="text/javascript" src="js/jscolor.js"></script>
+	<script type="text/javascript" src="js/jquery.draw.min.js"></script>
+	<!-- color end -->
+	
+	<!-- uploadify start -->
+	<link href="common/uploadify/uploadify.css" type="text/css" rel="stylesheet" />
+	<script type="text/javascript" src="common/uploadify/swfobject.js"></script>
+	<script type="text/javascript" src="common/uploadify/jquery.uploadify.v2.1.4.min.js"></script>
+	<!-- uploadify end -->
+	
+	<script type="text/javascript">
+		$().ready(function(){
+			$('#file_upload1').uploadify({
+				'uploader'  : 'common/uploadify/uploadify.swf',
+				'script'    : 'common/uploadify/uploadify.php',
+				'cancelImg' : 'common/uploadify/cancel.png',
+				'folder'    : 'uploads/images',
+				'fileExt'   : '*.png',
+				'fileDesc'  : 'Web Image Files(*.png)',
+				'scriptData': {'width':320,'height':480,'mark':'<=','stay':'image'},
+				'auto'      : true,
+				'onComplete'  : function(event, ID, fileObj, response, data) {
+					if(response == '-1'){
+						$('#file_upload').uploadifyClearQueue();
+						alert('The image should be less than 1 MB in PNG and 320px wide by 480px high');return false;
+					}else{
+						$('#icon_image1').html('<input type="button" value="clear" class="input_btn"><br><img src="uploads/images/'+response.split("/").slice(-1)+'" width="80"/>');
+						$('input[name=app_background_image]').val("uploads/images/"+response.split("/").slice(-1));	
+						/** Draw */
+						$("#draw").Dram();
+					}
+				}
+			});
+						
+			/**
+			 *下一页按钮
+			 ***/
+			$(".next").hover(function(){
+				$("#button_msg").html("Click here to next step.");
+			},function(){
+				$("#button_msg").html("");
+			})
+	
+			$(".back").hover(function(){
+				$("#button_msg").html("Click here to previous step.");
+			},function(){
+				$("#button_msg").html("");
+			})
+			
+			/**
+			 *
+			 ***/
+			$(".box1 .entry").click(function(){
+				$(".box1").css({"z-index":"100"});
+				$(".box2").css({"z-index":"101","left":"320px"}).stop().animate({left: '0' }, 200)	
+			})
+			$(".back").click(function(){
+				$(".box2").css({"left":"0"}).stop().animate({left: '320px' }, 200, function(){
+					$(".box1").css({"z-index":"101"});
+					$(".box2").css({"z-index":"100"});				
+				})	
+			})
+
+			/**
+			 *Draw
+			 ***/
+			$("#draw").Dram();
+			
+			$(".faq").hover(function(e){
+				$(".faqcomment").hide();
+				$(this).next().css({"top": parseInt(e.pageY)+5,"left": parseInt(e.pageX)+5,"backgroundColor":"#FFFFFF"}).show("fast").parent().mousemove(function(e){$(this).next().css({"top": parseInt(e.pageY)+5,"left": parseInt(e.pageX)+5})})
+			},function(){
+				$(this).next().hide();
+			})
+	
+				/*$(".faq").hover(function(){
+					$(this).next().show();
+				},function(){
+					$(this).next().hide();
+				})*/
+				
+			/**
+			 *clear image
+			 ***/
+			$("#icon_image1").on('click',':button',function(){
+				$img=$("#icon_image1").find('img').eq(0);
+				if(!$img.attr('src')){return false;}
+				if(!confirm('Are you sure to clear the image?')){return false;}
+				$("[name='app_background_image']").val('');
+				$("div.blog").css('background-image','');
+				$img.remove();
+			});
+		})
+	</script>
+{#/block}
+{#block name=content}
+
+	<div id="container">
+	
+		{#include file="Header.html"}
+		<div class="breadcrumb">
+			<p class="nav"><span style="font-size:18px;font-weight:bold;">Step 5 -- Customize Appearance</span></p>
+		</div>
+		{#include file="Course.html"}
+				
+		<div id="divBody">
+			
+			<div class="content">
+			
+				<!--div class="breadcrumb">
+					<p class="nav"><a href="index.php">Home</a> > <a href="index.php">My Apps</a> > <span>{#$step}</span></p>
+					<h2 class="title">{#$step|upper}</h2>					
+				</div-->
+				
+				<div class="content_p">
+					<div class="content_p_l fl" id="draw">
+						<form action="?c=template&a=saveAppAppearance&aid={#$aid}" method="post">
+							<!-- <h2>App Color</h2> -->
+							<table class="list" style="border: 0">
+								<tr>	
+									<td>
+										<div class="faqbox">
+											App Background Color<img src="images/faq.png" alt="" class="faq" />
+											<p class="faqcomment">Background color throughout the app. If you upload an image for the background, then it takes precedence than pure color.</p>
+										</div>
+									</td>
+									<td><input class="color" name="app_background_color"  value="{#$application_info.app_background_color}"></td>
+								</tr>
+								<tr>
+									<td>
+										<div class="faqbox">
+											App Background Full Screen Image<img src="images/faq.png" alt="" class="faq" />
+											<p class="faqcomment">Background image throughout the app. If you upload an image for the background, then it takes precedence than pure color.</p>
+										</div>
+									</td>
+									<td>
+										<input type="file" id="file_upload1" name="file_upload1"/>
+										<input type="hidden" name="app_background_image" value="{#$application_info.app_background_image}">
+										<span>(The image should be less than 1MB and 320 px width by 480 px height in PNG.)</span>
+										<div id="icon_image1">
+										{#if $application_info.app_background_image neq ""}
+											<input type="button" id="clearimg" value="clear" class="input_btn"><br>
+											<img src="{#$application_info.app_background_image}" width="80"/>
+										{#/if}
+										</div>					
+									</td>
+								</tr>
+								</tr>
+								<tr>
+									<td>
+										<div class="faqbox">
+											App Text Color<img src="images/faq.png" alt="" class="faq" />
+											<p class="faqcomment">Text color throughout the app. But if you set text color via HTML Editor, then the HTML Editor one takes precedence.</p>
+										</div>
+									</td>
+									<td><input class="color" name="app_text_color"  value="{#$application_info.app_text_color}"></td>
+								</tr>
+								<tr>
+									<td>
+										<div class="faqbox">
+											Navigation Bar Color<img src="images/faq.png" alt="" class="faq" />
+											<p class="faqcomment">Background color for the navigation area of the app.</p>
+										</div>
+									</td>
+									<td><input class="color" name="navbar_background_color"  value="{#$application_info.navbar_background_color}"></td>
+								</tr>
+								<tr>
+									<td>
+										<div class="faqbox">
+											Navigation Bar Text Color<img src="images/faq.png" alt="" class="faq" />
+											<p class="faqcomment">Text color for the navigation label in navigation area of the app.</p>
+										</div>
+									</td>
+									<td><input class="color" name="navbar_text_color"  value="{#$application_info.navbar_text_color}"></td>
+								</tr>
+								<tr>
+									<td>
+										<div class="faqbox">
+											Bottom/Top Title Bar Color<img src="images/faq.png" alt="" class="faq" />
+											<p class="faqcomment">Background color for the top title bar throughout the app.  The color selected here will also be applied to tab, bottom feature short-cut bar, pop-up box, buttons, and comment icon base on predefined creative rule.</p>
+										</div>
+									</td>
+									<td><input class="color" name="topbar_background_color"  value="{#$application_info.topbar_background_color}"></td>
+								</tr>
+								<tr>
+									<td>
+										<div class="faqbox">
+											Bottom/Top Title Bar Text Color<img src="images/faq.png" alt="" class="faq" />
+											<p class="faqcomment">Text color for the top bar label throughout the app. The color selected here will also be applied to the text in tab, bottom feature short-cut bar, pop-up box, buttons, and comment icon.</p>
+										</div>
+									</td>
+									<td><input class="color" name="topbar_text_color"  value="{#$application_info.topbar_text_color}"></td>
+								</tr>
+								<tr>
+									<td>
+										<div class="faqbox">
+											View/Like/Comment Icon Color<img src="images/faq.png" alt="" class="faq" />
+											<p class="faqcomment">Three set of color can be selected for the View/Like/Comment Icon throughout the app.</p>
+										</div>
+									</td>
+									<td>
+										<input type="radio" name="icon_type" value="0" class="radio"{#if $application_info.icon_type eq 0} checked="checked"{#/if} /><label style="margin-right: 10px;">Black</label>
+										<input type="radio" name="icon_type" value="1" class="radio"{#if $application_info.icon_type eq 1} checked="checked"{#/if} /><label style="margin-right: 10px;">Grey</label>
+										<input type="radio" name="icon_type" value="2" class="radio"{#if $application_info.icon_type eq 2} checked="checked"{#/if} /><label style="margin-right: 10px;">White</label>
+									</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td><input type="submit" value="save" class="input_btn"></td>
+								</tr>
+							</table>
+						</form>
+					</div>
+					<div class="content_p_r fr">
+						<div class="phone">
+							<div class="pbox">
+								<div class="phone_c box1">
+									<h2 class="phone_header">Top Title</h2>
+									<div class="blog">
+										<div class="entry">
+											<div class="entry_c">
+												<h3>Title 1</h3>
+												<p class="con">Text text text text text text text text text text text text text text.</p>
+												<p class="note">Feb 12, 2012 08:00</p>
+											</div>
+										</div>
+										<div class="entry">
+											<div class="entry_c">
+												<h3>Title 2</h3>
+												<p class="con">Text text text text text text text text text text text text text text.</p>
+												<p class="note">Feb 12, 2012 08:00</p>
+											</div>
+										</div>
+										<div class="entry">
+											<div class="entry_c">
+												<h3>Title 3</h3>
+												<p class="con">Text text text text text text text text text text text text text text.</p>
+												<p class="note">Feb 12, 2012 08:00</p>
+											</div>
+										</div>
+										<div class="entry">
+											<div class="entry_c">
+												<h3>Title 4</h3>
+												<p class="con">Text text text text text text text text text text text text text text.</p>
+												<p class="note">Feb 12, 2012 08:00</p>
+											</div>
+										</div>
+										<div class="entry">
+											<div class="entry_c">
+												<h3>Title 5</h3>
+												<p class="con">Text text text text text text text text text text text text text text.</p>
+												<p class="note">Feb 12, 2012 08:00</p>
+											</div>
+										</div>
+										<div class="entry">
+											<div class="entry_c">
+												<h3>Title 6</h3>
+												<p class="con">Text text text text text text text text text text text text text text.</p>
+												<p class="note">Feb 12, 2012 08:00</p>
+											</div>
+										</div>
+									</div>
+									<div class="tab_menu">
+										{#foreach from=$tab_list item=item}
+										<a href="javascript:;" class="fl"><img src="{#$item.ticon}" /><span>{#$item.tname}</span></a>
+										<!--a href="javascript:;" class="fl"><img src="images/uploads/games.png" /><span>Gallery</span></a>
+										<a href="javascript:;" class="fl"><img src="images/uploads/first_aid.png" /><span>Video</span></a>
+										<a href="javascript:;" class="fl"><img src="images/uploads/filter.png" /><span>Music</span></a>
+										<a href="javascript:;" class="fl"><img src="images/uploads/house.png" /><span>More</span></a-->
+										{#/foreach}
+										<div class="clear"></div>
+									</div>
+									<div class="bottom_menu">
+										<a href="" class="fl play"></a>
+										<a href="" class="fl earth"></a>
+										<span class="fl">Trouble Is A Friend</span>
+										<div class="clear"></div>
+									</div>
+								</div>
+								<div class="phone_c box2">
+									<h2 class="phone_header">
+										<a href="javascript:;" class="fl back">Back</a>
+										<!--a href="javascript:;" class="fl switch"></a>
+										<a href="javascript:;" class="fl share"></a-->
+										<div class="clear"></div>
+									</h2>
+									<div class="blog">
+										<div class="entry" style="border: 0;">
+											<div class="entry_c">
+												<h3>Title 1</h3>
+												<p class="note">
+													<a href="" class="fl eye">12345</a>
+													<a href="" class="fl comment">12345</a>
+													<a href="" class="fl good">12345</a>
+													<div class="clear"></div>
+												</p>
+												<p class="con">Text text text text text text text text Text text text text text text text text Text text text text text text text text Text text text text text text text text Text text text text text text text text Text text text text text text text text</p>
+											</div>
+										</div>
+									</div>
+									<div class="bottom_menu">
+										<a href="" class="fl play"></a>
+										<a href="" class="fl earth"></a>
+										<span class="fl">Trouble Is A Friend</span>
+										<div class="clear"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>	
+					<div class="clear"></div>
+				</div>
+			
+			</div>
+			<div class="clear"></div>
+			<p style="text-align: right; margin-top: 20px;">
+			<a href="?c=main&a=create&step=customize_feature&aid={#$aid}" class="button back">Back</a>
+			<a href="?c=main&a=create&step=customize_publish&aid={#$aid}" class="button next">Next</a>
+			
+			<div class="clear"></div>
+			</p>
+			<p id="button_msg" style="text-align: right; height:15px;"></p>	
+		</div>	
+		
+		<div class="clear"></div>
+		
+		
+		
+		
+		{#include file="Footer.html"}
+	
+	</div>
+{#/block}

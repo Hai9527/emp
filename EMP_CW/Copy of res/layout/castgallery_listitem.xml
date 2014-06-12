@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:gravity="center_horizontal">
+	<!-- <ImageView android:layout_width="150dip" android:layout_height="200dip" 
+		android:layout_marginLeft="5dip" android:layout_marginRight="5dip" android:layout_marginTop="10dip" 
+		android:scaleType="fitXY" android:id="@+id/castgallery_listitem_imageView"></ImageView> -->
+	<!-- <ImageView android:layout_width="250dip" android:layout_height="350dip" 
+		android:layout_marginLeft="5dip" android:layout_marginRight="5dip" android:layout_marginTop="15dip" 
+		android:scaleType="fitXY" android:id="@+id/castgallery_listitem_imageView"></ImageView> -->
+	<ImageView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_weight="1"
+		android:scaleType="fitXY" android:id="@+id/castgallery_listitem_imageView"
+		android:layout_marginLeft="5dip" android:layout_marginRight="5dip"
+		android:layout_marginTop="10dip"></ImageView>
+	<ImageView android:layout_height="wrap_content" android:src="@drawable/shadow"
+		android:layout_width="wrap_content"></ImageView>
+	<TextView android:id="@+id/castgallery_listitem_title"
+		android:layout_weight="1" android:text="adad" android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:lines="1"></TextView>
+	<TextView android:id="@+id/castgallery_listitem_currentcount"
+		android:layout_weight="1" android:text="asd" android:layout_height="wrap_content"
+		android:layout_width="wrap_content" android:lines="1"></TextView>
+
+</LinearLayout>

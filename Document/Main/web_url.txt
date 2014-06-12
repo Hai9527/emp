@@ -1,0 +1,12 @@
+
+Notification: http://202.134.127.70/projects/EMP/phase1/Webservice/?c=api&a=notification
+http://202.134.127.70/projects/EMP/phase1/Webservice/?c=api&a=application&apiJSON={%22aid%22:%221%22,%22aupdate_time%22:%222012-01-09%22}
+Html_view: http://202.134.127.70/projects/EMP/phase1/Webservice/?c=api&a=htmlview 
+Gallery: http://202.134.127.70/projects/EMP/phase1/Webservice/?c=api&a=gallery
+Gallery_photo:http://202.134.127.70/projects/EMP/phase1/Webservice/?c=api&a=gallery&apiJSON={"gid":"1"}
+Video:http://202.134.127.70/projects/EMP/phase1/Webservice/?c=api&a=video
+Events:http://202.134.127.70/projects/EMP/phase1/Webservice/?c=api&a=event
+Event_detail:http://202.134.127.70/projects/EMP/phase1/Webservice/?c=api&a=event&apiJSON={"eid":"1"}
+Article:http://202.134.127.70/projects/EMP/phase1/Webservice/?c=api&a=article
+Article_detail:http://202.134.127.70/projects/EMP/phase1/Webservice/?c=api&a=article&apiJSON={"artid":"1"}
+Form:http://202.134.127.70/projects/EMP/phase1/Webservice/?c=api&a=form

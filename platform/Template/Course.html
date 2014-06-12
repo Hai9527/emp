@@ -1,0 +1,18 @@
+		<div id="divCourse">
+
+			<div id="course">
+			
+				<a href="?c=main&a=create&step=basic_info&aid={#$aid}&do=edit"{#if $step eq 'basic info'} class="select"{#/if}>1.Add App 
+Information</a>
+				<a href="?c=main&a=create&step=select_template&aid={#$aid}"{#if $step eq 'select template'} class="select"{#/if}>2.Select Template</a>
+				<a href="?c=main&a=create&step=add_feature&aid={#$aid}"{#if $step eq 'add feature'} class="select"{#/if}>3.Add Feature</a>
+				<a href="?c=main&a=create&step=customize_feature&aid={#$aid}"{#if $step eq 'customize feature'} class="select"{#/if}>4.Customize Feature</a>
+				<a href="?c=main&a=create&step=customize_appearance&aid={#$aid}"{#if $step eq 'customize appearance'} class="select"{#/if}>5.Customize Appearance</a>
+				<!-- <a href="?c=main&a=create&step=customize_preview&aid={#$aid}"{#if $step eq 'customize preview'} class="select"{#/if}>6.Preview</a> -->
+				<a href="?c=main&a=create&step=customize_publish&aid={#$aid}"{#if $step eq 'customize publish'} class="select"{#/if}>6.Publish</a>
+					
+				<div class="clear"></div>
+			
+			</div>
+			<div class="clear"></div>
+		</div>

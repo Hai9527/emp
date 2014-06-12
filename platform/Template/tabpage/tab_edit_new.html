@@ -1,0 +1,29 @@
+<script type="text/javascript" src="js/WebCalendar.js"></script>
+<table class="form">
+	<tr>
+		<th>Title*</th>
+		<td><input type="text" name="artname" value="{#$tab_info.tname}" /></td>
+	</tr>
+	<tr>
+		<th>Thumbnail*</th>
+		<td><input type="text" name="articon" value="{#$tab_info.tname}" /></td>
+	</tr>
+	<tr>
+		<th>Date*</th>
+		<td><input type="text" name="articon" value="{#$tab_info.tname}" onclick="SelectDate(this,'yyyy-MM-dd')"/></td>
+	</tr>
+	<tr>
+		<th valign="top">Page detail</th>
+		<td><textarea name="artshort_description" class="description"></textarea></td>
+	</tr>
+	<tr>
+		<th>Status*</th>
+		<td><p><input type="radio" name="artstatus" value="1" class="radio" style="border: 0;"{#if $tab_info.status eq 1} checked="checked"{#/if} /><label>Active</label>
+			<input type="radio" name="artstatus" value="0" class="radio" style="border: 0;"{#if $tab_info.status eq 0} checked="checked"{#/if} /><label>Inactive</label>
+		</p></td>
+	</tr>
+	<tr>
+		<th></th>
+		<td><input type="submit" value="Save" class="input_btn" /></td>
+	</tr>
+</table>

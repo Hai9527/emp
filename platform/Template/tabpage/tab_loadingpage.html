@@ -1,0 +1,42 @@
+					<script language="javascript">
+						$().ready(function(){
+							$('#file_upload').uploadify({
+								'uploader'  : 'common/uploadify/uploadify.swf',
+								'script'    : 'common/uploadify/uploadify.php',
+								'cancelImg' : 'common/uploadify/cancel.png',
+								'folder'    : 'uploads/images',
+								'fileExt'   : '*.jpg;*.gif;*.png',
+								'fileDesc'  : 'Image Files(*.jpg;*.gif;*.png)',
+								'scriptData': {'stay':'image'},
+								'auto'      : true,
+								'onComplete'  : function(event, ID, fileObj, response, data) {
+									$('.showbox img').attr('src','uploads/images/'+response.split("/").slice(-1));
+									$('input[name=aload_image]').val("uploads/images/"+response.split("/").slice(-1));					
+								}
+							});
+						})
+					</script>
+					<div class="fl content_box">
+						<form method="post" action="?c=application&a=saveLoaddingImage">
+							<input type="hidden" value="{#$aid}" name="aid">
+							<table class="form">
+								<tr>
+									<th>Loading Image *</th>
+									<td>
+										<input type="file" id="file_upload" name="file_upload"/>
+										<input type="hidden" name="aload_image" value="{#$app_info.aload_image}"/>
+										<span>(The image should be less than 1 MB, PNG-24, 320*460px)</span>
+									</td>
+								</tr>
+								
+								<tr>
+									<th></th>
+									<td><input type="submit" class="input_btn" value="SUBMIT"></td>
+								</tr>					
+							</table>
+						</form>						
+					</div>
+					<div class="fr content_box">
+						<div class="showbox">{#if $app_info.aload_image neq ''}<img src="{#$app_info.aload_image}" alt="" width="320" height="460" />{#/if}</div>
+					</div>
+					<div class="clear"></div>

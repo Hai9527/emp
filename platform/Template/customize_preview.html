@@ -1,0 +1,44 @@
+{#extends file='Main.Master.html'}
+{#block name=head}
+
+{#/block}
+{#block name=content}
+
+	<div id="container">
+	
+		{#include file="Header.html"}
+	
+		{#include file="Course.html"}
+		
+		<div id="divBody">
+			
+			<div class="content">
+			
+				<div class="breadcrumb">
+					<p class="nav"><a href="index.php">Home</a> > <a href="index.php">My Apps</a> > <span>{#$step}</span></p>
+					<h2 class="title">{#$step|upper}</h2>					
+				</div>
+				
+				<div class="content_p">
+					<div class="content_b">
+						<p><span>(The followings are the Key and Download Link for your app preview.)</span></p>
+						<p><strong>Step 1</strong>, please click the link to download the Android App Prevew Tool and install into your Android Device.</p>
+						<p><strong>Step 2</strong>, open the Android App Prevew Tool to enter the Key, then you can preview your app.</p>
+					</div>
+					<div class="content_b">
+						<h3>Your App Key: &nbsp;<span class="msg">{#$akey}</h3>
+						<p><strong>Android App Preview Tool</strong></p>
+						<p><strong>Download Link: &nbsp;<a href="">http://**********************************</a></strong></p>
+					</div>
+				</div>
+				
+			</div>
+
+		</div>	
+		
+		<div class="clear"></div>
+		
+		{#include file="Footer.html"}
+	
+	</div>
+{#/block}

@@ -1,0 +1,41 @@
+<p class="btn"><a class="iframe button" href="?c=event&a=editEvent&tid={#$tid}">Add New</a></p>
+<table class="list">
+	<tr>
+		<th>ID</th>
+		<th>Title</th>
+		<th>Start Time</th>
+		<th>End Time</th>
+		<th>Attending</th>
+		<th>Not Attending</th>
+		<th>Might Attend</th>
+		<th>Status</th>
+		<th>Action</th>
+	</tr>
+	{#if $event_list neq ""}
+	{#foreach from=$event_list item=item key=key}
+	<tr>							
+		<td align="center">{#$item.eid}</td>
+		<td>{#$item.etitle|mb_truncate:13:"..."}</td>
+		<td>{#$item.estart_time}</td>
+		<td>{#$item.eend_time}</td>
+		<td>{#$item.egaree}</td>
+		<td>{#$item.eunagree}</td>
+		<td>{#$item.emaybe}</td>
+		<td>
+			{#if $item.estatus eq 0}Inactive
+			{#elseif $item.estatus eq 1}Active
+			{#/if}
+		</td>
+		<td><a href="?c=event&a=editEvent&eid={#$item.eid}" class="iframe button">Edit</a>&nbsp;&nbsp;&nbsp;<a href="?c=event&a=deleteEvent&eid={#$item.eid}" onclick="return confirm('Are you sure delete this record.')" class="button">Delete</a></td>					
+	</tr>
+	{#foreachelse}
+	<tr>							
+		<td colspan="9">There is no records currently.</td>
+	</tr>	
+	{#/foreach}	
+	{#/if}
+
+</table>
+<div class="page">
+	<div class="pageshow">{#$show_page}</div>
+</div>

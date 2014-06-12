@@ -1,0 +1,68 @@
+{#extends file='Main.Master.html'}
+{#block name=head}
+<link rel="stylesheet" href="css/popup.css">
+<!-- webcalendar.js-->
+<script type="text/javascript" src="js/WebCalendar.js"></script>
+<!-- webcalendar.js-->
+
+<!-- uploadify start -->
+<link href="common/uploadify/uploadify.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="common/uploadify/swfobject.js"></script>
+<script type="text/javascript" src="common/uploadify/jquery.uploadify.v2.1.4.min.js"></script>
+<!-- uploadify end -->
+
+<!--htmleditor start-->
+<script charset="utf-8" src="common/kindeditor/kindeditor-min.js"></script>
+<script charset="utf-8" src="common/kindeditor/lang/zh_CN.js"></script>
+<script charset="utf-8">
+<!--htmleditor end-->
+
+	//htmleditor
+	KindEditor.ready(function(K) {
+		if($('#description').length>0)
+		editor_description = K.create('#description', {
+			width : '500px',
+			height : '200px',
+			allowFileManager : true,
+			afterChange : function() {
+				K('input[name=description_word_count]').val(this.count('text'));
+			}
+		});
+		
+		if($('#content').length>0)
+		editor_content = K.create('#content', {
+			width : '500px',
+			height : '200px',
+			allowFileManager : true, 
+			afterChange : function() {
+				K('input[name=content_word_count]').val(this.count('text'));
+			}
+		});
+		
+		var y = parseInt($(".content_p").height()+180);
+		var x = parseInt($(".content_p").width()+150);
+
+		parent.$.colorbox.resize({width:x, height:y});
+
+	})
+
+</script>
+{#/block}
+{#block name=content}
+
+	<div id="container">
+			
+			<div class="content popcontent">
+				
+				<div class="content_p">
+					<form action="{#$action}" onsubmit="return pageEditForm();" method="post">
+						<h2 class="popTitle">{#$title}</h2>
+						<input type="hidden" name="aid" value="{#$aid}" />
+						<!--input type="hidden" name="ticon" value="" /-->
+						{#include file="tabpage/`$edit_page`.html"}
+						
+					</form>
+				</div>				
+			</div>
+	</div>	
+{#/block}

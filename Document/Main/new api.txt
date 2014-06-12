@@ -1,0 +1,18 @@
+event:
+	/**未过期***/
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=event&apiJSON={"tid":"540","type":"upcoming"}
+	/**历史记录***/
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=event&apiJSON={"tid":"540","type":"past"}
+	/**page:當前頁      number:一頁顯示多少頁 ***/
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=event&apiJSON={"tid":"540","type":"past","page":"1","number":"2"}
+
+video:
+	/**popular***/
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=video&apiJSON={"tid":"538","type":"popular"}
+	/**recent***/
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=video&apiJSON={"tid":"538"}
+
+
+Article:	/**page:當前頁      number:一頁顯示多少頁 ***/
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=article&apiJSON={"tid":537,"page":"1","number":"3"}
+

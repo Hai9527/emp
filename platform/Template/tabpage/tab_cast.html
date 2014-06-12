@@ -1,0 +1,41 @@
+<p class="btn"><a class="iframe button" href="?c=cast&a=editCast&tid={#$tid}">Add New</a></p>
+<table class="list">
+	<tr>
+		<th width="12%">Order</th>
+		<th>ID</th>
+		<th>Name</th>
+		<!-- <th>Save Time</th> -->
+		<th>Status</th>
+		<th width="15%">Action</th>
+	</tr>
+	{#if $cast_list neq ""}
+	{#foreach from=$cast_list item=item key=key}
+	<tr>							
+		<td align="center">
+			<span class="number">{#$offset + $key + 1}</span>
+			<input type="hidden" value="{#$item.cid}" name="id" />
+			<input type="hidden" value="{#$item.tid}" name="tid" />
+			<input type="text" name="order" class="order" />&nbsp;&nbsp;
+			<a href="javascript:;" onclick="" class="button go">GO</a>
+		</td>
+		<td>{#$item.cid}</td>
+		<td>{#$item.cname|mb_truncate:13:"..."}</td>
+		<!-- <td>{#$item.artcreate_time}</td> -->
+		<td>
+			{#if $item.cstatus eq 0}Inactive
+			{#elseif $item.cstatus eq 1}Active
+			{#/if}
+		</td>
+		<td><a href="?c=cast&a=editCast&cid={#$item.cid}" class="iframe button">Edit</a>&nbsp;&nbsp;&nbsp;<a href="?c=cast&a=deleteCast&cid={#$item.cid}" onclick="confirm('Are you sure delete this record.')" class="button">Delete</a></td>					
+	</tr>
+	{#foreachelse}
+	<tr>							
+		<td colspan="6">There is no records currently.</td>
+	</tr>	
+	{#/foreach}	
+	{#/if}
+
+</table>
+<div class="page">
+	<div class="pageshow">{#$show_page}</div>
+</div>

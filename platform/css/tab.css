@@ -1,0 +1,20 @@
+.load .fl{
+	width: 580px;
+}
+.load .fr{
+	width: 400px;
+}
+.load .content_box .showbox{
+	width: 320px;
+	height: 460px;
+	margin: auto;
+    border: 1px solid #999999;
+    border-radius: 4px 4px 4px 4px;
+	padding: 20px;
+}
+.scroll{
+	height: 26px;
+	overflow: hidden;
+}
+
+

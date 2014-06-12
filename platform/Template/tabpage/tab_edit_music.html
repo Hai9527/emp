@@ -1,0 +1,108 @@
+<script language="javascript">
+	$().ready(function(){
+		$('#file_upload').uploadify({
+			'uploader'  : 'common/uploadify/uploadify.swf',
+			'script'    : 'common/uploadify/uploadify.php',
+			'cancelImg' : 'common/uploadify/cancel.png',
+			'folder'    : 'uploads/images',
+			'fileExt'   : '*.png',
+			'fileDesc'  : 'Web Image Files(*.png)',
+			<!-- 'scriptData': {'width':320,'height':182,'mark':'<=','stay':'image'}, -->
+			'scriptData': {'stay':'image'},
+			'auto'      : true,
+			'onComplete'  : function(event, ID, fileObj, response, data) {
+					if(response == '-1'){
+						$('#file_upload').uploadifyClearQueue();
+						alert('The image should be less than 1 MB in PNG and 320px wide by 182px high.');return false;
+					}else{
+					$('#icon_image').html('<img src="uploads/images/'+response.split("/").slice(-1)+'" width="25" height="25"/>');
+					$('input[name=micon]').val("uploads/images/"+response.split("/").slice(-1));
+				}
+			}
+		});
+
+		$('#file_upload2').uploadify({
+			'uploader'  : 'common/uploadify/uploadify.swf',
+			'script'    : 'common/uploadify/uploadify.php',
+			'cancelImg' : 'common/uploadify/cancel.png',
+			'folder'    : 'uploads/music',
+			'fileExt'   : '*.mp3; *.wma',
+			'fileDesc'  : 'Web Audio Files(.MP3, .WMA)',
+			'scriptData': {'stay':'music'},
+			'auto'      : true,
+			'onComplete'  : function(event, ID, fileObj, response, data) {
+					$('#icon_music').html('<img src="images/music.jpg" width="25" height="25"/>');
+					$('input[name=music]').val("uploads/music/"+response.split("/").slice(-1));
+			}
+		});
+	})
+	
+	/**
+	 *提交表单验证
+	 ***/
+	function pageEditForm(){
+		if($("input[name=mname]").val()=='') {$(".msg").text('Please fill in Title field.'); return false; }
+		/*else if($("input[name=mname]").val().length > 15) {$(".msg").text('The Title field must be less than 15 character.'); return false; }*/
+		else if($("input[name=micon]").val()=='') {$(".msg").text('Please upload Image.'); return false; }
+		else if($("input[name=music]").val()=='') {$(".msg").text('Please upload Audio.'); return false; }
+		/*else if($("textarea[name=mcaption]").val()==''&& $("input[name=content_word_count]").val()<=0) {$(".msg").text('Please fill in Audio Detail.'); return false; }*/
+		else if($("input[name=content_word_count]").val()<=0) {$(".msg").text('Please fill in Audio Detail.'); return false; }
+		else return true;
+	}
+</script>
+<table class="form">
+	<tr>
+		<th>Title*</th>
+		<td><input type="text" name="mname" value="{#$music_info.mname}" /></td>
+	</tr>
+	<tr>
+		<th>Image *</th>
+		<td>
+			<input type="file" id="file_upload" name="file_upload"/>
+			<input type="hidden" name="micon" value="{#$music_info.micon}" />
+			<div id="icon_image">
+			{#if $music_info.micon neq ""}
+				<img src="{#$music_info.micon}" width="25" height="25"/>
+			{#/if}
+			</div>
+			<span>(The image should be less than 1 MB in PNG and 320px wide by 182px high.)</span>
+		</td>
+	</tr>
+	<tr>
+		<th>Upload Audio*</th>
+		<td>
+			<input type="file" id="file_upload2" name="file_upload2"/>
+			<input type="hidden" name="music" value="{#$music_info.music}"/>
+			<div id="icon_music">
+			{#if $music_info.music neq ""}
+				<img src="images/music.jpg" width="25" height="25"/>
+			{#/if}
+			</div>
+			<span>(The audio should be MP3/WAV in Progressive Streamable Format.)</span>
+		</td>
+	</tr>
+	<tr>
+		<th valign="top">Audio Detail *</th>
+		<td><textarea name="mcaption" id="content">{#$music_info.mcaption}</textarea>
+		<input type="hidden" name="content_word_count" value="0" />
+		</td>
+	</tr>
+	<tr>
+		<th valign="top">Downloadable</th>
+		<td><input type="checkbox" name="mis_download"{#if $music_info.mis_download eq 1} checked="checked"{#/if} value="1" class="checkbox"/></td>
+	</tr>
+	<tr>
+		<th>Status*</th>
+		<td><p><input type="radio" name="mstatus" value="1" class="radio" style="border: 0;"{#if $music_info.mstatus eq 1 || $music_info.mstatus eq ''} checked="checked"{#/if} /><label>Active</label>
+			<input type="radio" name="mstatus" value="0" class="radio" style="border: 0;"{#if $music_info.mstatus eq 0  && $music_info.mstatus neq ''} checked="checked"{#/if} /><label>Inactive</label>
+		</p></td>
+	</tr>
+	<tr>
+		<th></th>
+		<td><input type="submit" value="Save" class="input_btn" /></td>
+	</tr>
+	<tr>
+		<th></th>
+		<td><p class="msg"></p></td>
+	</tr>					
+</table>

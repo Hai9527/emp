@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.fmlditital.emp"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk android:minSdkVersion="7" />
+
+    <uses-permission android:name="android.permission.INTERNET" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+
+    <application
+        android:name=".app.EMPApp"
+        android:icon="@drawable/emp_icon"
+        android:label="@string/app_name" >
+        <activity
+            android:name=".LoadingActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="EMPActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".article.ArticleActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".event.EventActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="HomeActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="MailActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".music.MusicActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".gallery.GalleryActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".video.VideoActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".gallery.GalleryTumbActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".gallery.ShowPictureActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".more.MoreActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".article.ArticleDetailActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".event.EventDetailActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".video.VideoPlayerActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity android:name=".form.FormActivity" >
+        </activity>
+        <activity
+            android:name=".video.VideoListActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".notification.NotificationActicity"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <receiver android:name=".receiver.BootBroadCastReceiver" >
+        </receiver>
+
+        <service android:name=".service.BootService" >
+        </service>
+
+        <activity
+            android:name=".cast.CastActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".cast.CastDetailActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".video.VideoDetailActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".base.BaseActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".music.MusicDetailActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".base.DefaultActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".dowmload.DownloadActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".preferences.SettingActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <service android:name=".service.MusicService" >
+        </service>
+
+        <receiver android:name=".music.MusicDetailActivity$MusicReceiver" >
+        </receiver>
+
+        <activity
+            android:name=".share.AuthorWeiboActivity"
+            android:launchMode="singleTask" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="TimeLineActivity"
+                    android:scheme="weiboandroidsdk" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.weibo.net.ShareActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan|stateAlwaysVisible" >
+        </activity>
+        <activity
+            android:name="PageActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".base.TopBarActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".base.AdapterViewActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".base.DetailBaseActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+    </application>
+
+</manifest>

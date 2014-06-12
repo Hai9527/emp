@@ -1,0 +1,12 @@
+#divBody input.color{
+	width:150px;
+	height:20px;
+}
+.content_p h2{
+	background-color: #CCCCCC;
+	font-size: 14px;
+	line-height: 30px;
+	margin: 10px 0;
+	width: 150px;
+	padding-left: 10px;
+}

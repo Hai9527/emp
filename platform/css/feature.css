@@ -1,0 +1,25 @@
+.content_p_l, .content_p_r{
+	width: 480px;
+}
+
+.content_p .list{
+	margin: 10px 0;
+}
+.content_p .list .thumbnail, .content_p .list .thumbnail img{
+	width: 40px;
+}
+.content_p .list .definition{
+	margin-left: 45px;
+}
+.content_p .list .definition h4{
+	margin: 5px 0;
+}
+
+.content_p .list .definition h4 a{
+	margin-left: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.icon img{
+	width: 25px;
+}

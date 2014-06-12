@@ -1,0 +1,80 @@
+1. app basicinfo: 
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=application&apiJSON={"aid":xx}
+
+2. home:
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=homepage&apiJSON={"tid":xx}
+
+3. gallery:	
+	/**list***/
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=gallery&apiJSON={"tid":xx}
+	/**details***/
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=gallery&apiJSON={"tid":xx,"gid":xx}
+
+4. video:
+	/**popular***/
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=video&apiJSON={"tid":"xx","type":"popular"}
+	/**recent***/
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=video&apiJSON={"tid":"xx"}
+	/**detail**/
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=video&apiJSON={"tid":"xx","type":"popular","vid":xx}
+
+
+5. event:
+	/**未过期列表***/
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=event&apiJSON={"tid":"xx","type":"upcoming"}
+	/**历史记录列表***/
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=event&apiJSON={"tid":"xx","type":"past"}
+	/**page:當前頁      number:一頁顯示多少頁 ***/
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=event&apiJSON={"tid":"xx","type":"past","page":"xx","number":"xx"}
+	/**detail**/
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=event&apiJSON={"tid":"xx","type":"xx","eid":xx}
+	/**参与活动: egaree: -1 Unagree, 1 Garee, 0 Maybe  **/
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=upadataEvent&apiJSON={"tid":xx,"eid":xx,"egaree":xx}
+	
+6. Article:	
+	/**page:當前頁      number:一頁顯示多少頁 ***/
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=article&apiJSON={"tid":xx,"page":"xx","number":"xx"}
+
+7. notification: 
+	/**list***/
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=notification&apiJSON={"tid":xx}
+	/**detail***/
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=notification&apiJSON={"tid":xx,"nid":xx}
+
+8. music:	
+	/**list***/
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=music&apiJSON={"tid":xx}
+	/**detail***/
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=gallery&apiJSON={"tid":xx,"mid":xx}
+
+9. cast:         
+	/**list**/
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=cast&apiJSON={"tid":xx}
+	/**detail**/
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=cast&apiJSON={"tid":xx,"cid":xx}
+
+10. form:	
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=form&apiJSON={"tid":xx}
+
+11. comment:
+	/**list**/
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=listcomment&apiJSON={"aid":xx,"data_id":xx}
+	/**插入comment**/
+	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=insertComment&apiJSON=	{"aid":"xx","data_id":"xx","data_name":"xx","tid":"xx","cuser_id":"xx","cuser_name":"xx","cuser_avatar":"xx","comment":"xx"}
+
+
+12 .form
+	/**插入form**/	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=insertListForm&apiJSON={"tid",xx,"mobileid":xx,"formdata":xx}
+
+14. accumulative counts
+	/**app下所有data的评论此数，赞，点击次数**/	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=accumulativecounts&apiJSON={"aid":xx}
+	/**app下某data_id的评论此数，赞，点击次数**/	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=accumulativecounts&apiJSON={"aid":xx,"data_id":xx}
+	/**更新app accumulative counts**/	http://202.134.127.70/projects/EMP/phase_dev/platform/?c=api&a=insertAccumulativeCounts&apiJSON={"aid":xx,"tid":xx,"data_id":xx，"acc_type":xx}
+
+15.login
+	/**插入login注册信息**/
+	?c=api&a=insertUser&apiJSON={"user_name":"micky","user_email":"micky@163.com","user_city":"shanghai","aid":"190"}
+
+	
+
+

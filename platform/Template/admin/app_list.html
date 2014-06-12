@@ -1,0 +1,87 @@
+{#extends file='Main.Master.html'}
+{#block name=head}
+<script language="javascript" src="js/admin.js"></script>
+{#/block}
+{#block name=content}
+
+	<div id="container">	
+		{#include file="Header.html"}
+		<div id="divBody">
+			<div class="content">
+				<div class="breadcrumb">
+					<p class="nav"><!-- <a href="?c=admin_user">Admin Homepage</a> >  --><span><a href="?c=admin_user">App Management</a></span> > <span> App List</span></p>
+					<h2 class="title">App List</h2>					
+				</div>				
+				<div class="search">
+					<!--h3><a href="javascript:void();" onclick="toggleShow($(this));"><span>-</span>&nbsp;Search</a></h3-->
+					<form action="" method="post">
+					<p style="margin: 5px 0;"><label>App Name/App Creator:</label><input type="text" name="keyword" value="{#$keyword}"/>&nbsp;&nbsp;&nbsp;
+					    <label>App Status:</label><select style="width:130px;" name="astatus">
+							<option value="">---Choose---
+							<option value="1"{#if $astatus eq 1} selected="selected"{#/if}>Submitted
+							<option value="3"{#if $astatus eq 3} selected="selected"{#/if}>Approved
+							<option value="-1"{#if $astatus eq -1} selected="selected"{#/if}>Disapproved
+							<option value="0"{#if $astatus eq 0 && $astatus neq ''} selected="selected"{#/if}>Draft
+							<option value="2"{#if $astatus eq 2} selected="selected"{#/if}>Processed
+						</select>&nbsp;&nbsp;&nbsp;
+					<input type="submit" value="Search" style="width:100px;"/></p/>
+					<!--span>(The keywords entered here should be based on username or email.)</span-->
+					</form>
+				</div>
+				<div>
+					<p class="btn"><a class="iframe button" href="?c=export&a=exportAllApp">Export All Apps</a></p>
+				</div>
+				
+				
+				<div class="content_p">
+					<table class="list">
+						<tr>
+							<th>ID</th>
+							<th>App Name</th>
+							<th>App Creator</th>
+							<th>Status </th>
+							<th>Date Submitted</th>
+							<th>Date Approved</th>
+							<th>Action</th>
+							<!-- <th>Preview</th> -->
+							<th>Online link</th>
+						</tr>
+						{#if $applist neq ""}
+						{#foreach from=$applist item=item key=key}
+						<tr>							
+							<td align="center">{#$item.aid}</td>
+							<td>{#$item.aname}</td>
+							<td>{#$item.acname}</td>
+							<td>
+							{#if $item.astatus eq 1}Submitted{#/if}
+							{#if $item.astatus eq 2}Processed{#/if}
+							{#if $item.astatus eq 3}Approved{#/if}
+							{#if $item.astatus eq 0}Draft{#/if}
+							{#if $item.astatus eq -1}Disapproved{#/if}
+							</td>
+							<!-- <td>{#if $item.astatus eq 1}{#$item.asumbit_time}{#/if}</td> -->
+							<td>{#$item.asumbit_time}</td>
+							<td>{#if $item.astatus eq 3}{#$item.aapproved_time}{#/if}</td>
+							<td><a href="?c=admin_app&a=edit_app&aid={#$item.aid}" class="button">Change Status</a>&nbsp;&nbsp;<a href="?c=main&a=create&step=basic_info&aid={#$item.aid}&do=edit" class="button{#if $item.astatus eq 1 or $item.astatus eq 2 or $item.astatus eq -1} disabled{#/if}">Edit</a></td>
+							<!-- <td><a href="">View</td> -->
+							<td>{#if $item.astatus eq 3}{#$item.aonline_link|mb_truncate:30:"..."}{#/if}</td>							
+						</tr>
+						{#foreachelse}
+						<tr>							
+							<td colspan="9" style="text-align: center;">There is no associated results now.</td>
+						</tr>
+						{#/foreach}						
+						{#/if}
+					</table>	
+					<div class="page"><div class="pageshow">{#$show_page}</div></div>
+				</div>
+				<!-- <p class="btn" style="margin-top:20px;"><a class="iframe button" href="">< Prev</a>&nbsp;&nbsp;<a class="iframe button" href="">Next ></a></p> -->
+				
+			</div>
+		
+		</div>
+		{#include file="Footer.html"}
+		
+	</div>
+	
+{#/block}

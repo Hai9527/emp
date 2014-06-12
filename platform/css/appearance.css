@@ -1,0 +1,211 @@
+.content_p_l{
+	width: 60%;
+}
+.content_p_r{
+	width: 40%;
+}
+
+.phone{
+	width: 391px;
+	height: 766px;
+	background: url(../images/iphone_wout_icons.png) no-repeat center;
+	position: relative;
+}
+.pbox{
+	position: absolute;
+	width: 320px;
+	height: 460px;
+	top: 145px;
+	left: 35px;
+	overflow: hidden;
+	z-index: 9999;
+}
+.phone_c{
+	position: absolute;
+	width: 320px;
+	height: 460px;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+}
+.box1{
+	z-index: 101;
+}
+.box2{
+	z-index: 100;
+}
+.content_p h2.phone_header{
+    /*background: url("../images/top-iphone-header-trans-grad.png") no-repeat scroll 0 0 #000000;*/
+    color: #FFFFFF;
+    font-family: arial;
+    font-size: 18px;
+    height: 25px;
+    margin: 0;
+    padding: 12px 0 8px;
+	width: 100%;
+    text-align: center;
+}
+.tab_menu{
+    /*background: url("../images/top-iphone-header-trans-grad.png") no-repeat scroll 0 0 #000000;*/
+	height: 45px;
+    position: absolute;
+    top: 387px;
+	width: 100%;
+}
+.tab_menu a{
+	width: 64px;
+	height: 45px;
+	display: block;
+}
+.tab_menu a img{
+	width:20px;
+	margin-left: 22px;
+    margin-top: 5px;
+}
+.tab_menu a span{
+	display: block;
+	text-align: center;	
+}
+
+.bottom_menu{
+	height: 25px;
+    position: absolute;
+    top: 432px;
+	width: 100%;
+	background-color: #FFFFFF;
+}
+.bottom_menu .play, .bottom_menu .earth{
+	margin-left: 10px;
+	display: block;
+	width: 40px;
+	height: 25px;
+}
+.bottom_menu span{
+	margin-left: 10px;
+	display: block;
+	width: 160px;
+	height: 25px;
+	line-height: 25px;
+}
+.bottom_menu .play{
+    background: url("../images/arrow_righet.png") no-repeat left center;
+	border-right: 1px solid #000000;
+}
+.bottom_menu .earth{
+    background: url("../images/earth.png") no-repeat left center;
+}
+
+.blog{
+	width: 120%;
+	height: 412px;
+	background: none;
+	overflow: auto;	
+}
+.entry{
+	padding: 5px;
+	border-bottom: 1px solid #CCCCCC;
+    background: url("../images/listArrow.png") no-repeat scroll 295px 10px transparent;
+}
+.box2 .entry{
+	border: 0;
+	background: none;
+}
+.entry_c{
+	margin-bottom: 4px;
+    margin-left: 5px;
+	width: 300px;
+}
+.entry_c h3{
+	/*color: #2B2A29;*/
+	margin-top: 8px;
+    font-family: Helvetica,sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+}
+.box2 .entry_c h3{
+	font-size: 18px;
+}
+.entry_c .con{
+    font-family: arial;
+    font-size: 1.1em;
+	/*color: #126AE6;*/
+}
+.box2 .entry_c .con{
+	margin-top: 10px;
+    /*color: #333333;*/
+    font-family: "Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
+	font-size: 16px;
+}
+.entry_c .note{
+    /*color: #AAAAAA;*/
+    font-size: 10px;
+    margin-top: 5px;
+}
+
+.entry_c .note a{
+	margin-left: 15px;
+	display: block;
+	width: 60px;
+	padding-left: 25px;
+	height:25px;
+	line-height:25px;
+}
+.entry_c .note .eye{ background: url("../images/eye_white.png") no-repeat left center;}
+.entry_c .note .comment{ background: url("../images/comment_white.png") no-repeat left center;}
+.entry_c .note .good{ background: url("../images/good_white.png") no-repeat left center;}
+
+.phone_header .back{
+	width: 40px;
+    height: 25px;
+    padding: 2px 5px 8px 13px;
+	margin-top: -5px;
+	margin-left: 8px;
+	display: block;
+	font-weight: normal;
+	color: #FFFFFF;
+	font-size: 12px;
+    background: url("../images/back-button-trans.png") no-repeat center;
+}
+.phone_header .switch{
+	width: 60px;
+    height: 25px;
+    padding: 2px 5px 8px 13px;
+	margin-top: -6px;
+	margin-left: 55px;
+	display: block;
+	font-weight: normal;
+	color: #FFFFFF;
+	font-size: 12px;
+    background: url("../images/next_prev_story_feed_icon.png") no-repeat center;
+}
+.phone_header .share{
+	width: 20px;
+    height: 25px;
+    padding: 2px 5px 8px 13px;
+	margin-top: -5px;
+	margin-left: 65px;
+	display: block;
+	font-weight: normal;
+	color: #FFFFFF;
+	font-size: 12px;
+    background: url("../images/share_feed_icon.png") no-repeat center;
+}
+.faq{
+	margin-left: 20px;
+	vertical-align: middle;
+}
+.faqbox{
+	/*position: relative;*/
+}
+.faqcomment{
+	position: absolute;
+	background-color: #FFFFFF;
+	left: 150px;
+	top: 30px;
+	width: 250px;
+	border: 1px solid #999999;
+	border-radius: 4px;
+	padding: 10px;
+	display: none;
+	z-index: 99999;
+}

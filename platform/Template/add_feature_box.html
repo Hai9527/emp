@@ -1,0 +1,255 @@
+{#extends file='Main.Master.html'}
+{#block name=head}
+	<link rel="stylesheet" href="css/popup.css">
+
+	<!-- uploadify start -->
+	<link href="common/uploadify/uploadify.css" type="text/css" rel="stylesheet" />
+	<script type="text/javascript" src="common/uploadify/swfobject.js"></script>
+	<script type="text/javascript" src="common/uploadify/jquery.uploadify.v2.1.4.min.js"></script>
+	<!-- uploadify end -->
+
+	<!-- kindeditor start -->
+	<script charset="utf-8" src="common/kindeditor/kindeditor-min.js"></script>
+	<script charset="utf-8" src="common/kindeditor/lang/zh_CN.js"></script>
+	<!-- kindeditor end -->
+	<script charset="utf-8">
+		$().ready(function(){
+			$("input[name=ticon]").val($(".sMiddle ul img.selected").attr("src"));
+			
+			/**
+			 *scroll start
+			 */
+			ulWidth = $(".sMiddle ul").find("li").length*$(".sMiddle ul").find("li").width()
+			$(".sMiddle ul").width(ulWidth)
+			
+			stepWidth = $(".sMiddle ul").find("li").width()*7;
+			
+			if(stepWidth>=ulWidth) $(".sLeft").css("color", "#CCCCCC");
+			
+			$(".sLeft").bind('click', scrollToLeft);
+			$(".sRight").bind('click', scrollToRight);
+			
+			/** scroll end */
+			
+			/** select icon start*/
+			$(".sMiddle ul img").click(function(){
+				if($("#existing:checked").length>0){
+					$(".sMiddle ul img").removeClass("selected");
+					$(this).addClass("selected");
+					$("input[name=ticon]").val($(this).attr("src"));
+				}
+			})
+			$("#default").click(function(){
+				$(".sMiddle ul img").removeClass("selected");
+				$("#colorarea input[type=radio]").attr("disabled","disabled");
+				$(".uploadarea object").hide(); $(".uploadarea #upload_img").show();
+			})
+						
+			$("#existing").click(function(){
+				$("#colorarea input[type=radio]").removeAttr("disabled");
+				$(".uploadarea object").hide(); $(".uploadarea #upload_img").show();
+			})
+			
+			$("#upload").click(function(){
+				$(".sMiddle ul img").removeClass("selected");
+				$("#colorarea input[type=radio]").attr("disabled","disabled");
+				$(".uploadarea object").show(); $(".uploadarea #upload_img").hide();
+			})
+			
+
+			/** select icon end*/
+			
+			$('#file_upload').uploadify({
+				'uploader'  : 'common/uploadify/uploadify.swf',
+				'script'    : 'common/uploadify/uploadify.php',
+				'cancelImg' : 'common/uploadify/cancel.png',
+				'folder'    : 'uploads/images',
+				'fileExt'   : '*.png',
+				'fileDesc'  : 'Web Image Files(*.png)',
+				<!-- 'scriptData': {'width':48,'height':48,'mark':'<=','stay':'image'}, -->
+				'scriptData': {'stay':'image'},
+				'auto'      : true,
+				'onSWFReady': function(){
+			/** 上传图片禁用 */
+					{#if $tab_info.ticon_type neq 2}
+						$(".uploadarea object").hide(); $(".uploadarea #upload_img").show();
+					{#/if}
+				},
+				'onComplete'  : function(event, ID, fileObj, response, data) {
+					if(response == '-1'){
+						$('#file_upload').uploadifyClearQueue();
+						alert('The image should be less than 1 MB in PNG and 48px wide by 48px high');return false;
+					}else{
+					$('#icon_image').html('<img src="uploads/images/'+response.split("/").slice(-1)+'" width="25" height="25"/>');
+					$('input[name=uploadicon]').val("uploads/images/"+response.split("/").slice(-1));					
+					}
+				}
+			});
+			
+
+			parent.$.colorbox.resize({width:'600', height:'550'});
+			
+			
+			iconColor({#$tab_info.ticon_color|default:1});
+			
+			$("input[name=color]").change(function(){ 
+				iconColor(parseInt($("input[name=color]:checked").val()));
+				$("input[name=ticon]").val($(".sMiddle ul img.selected").attr("src"));
+			})
+			
+
+		})
+		
+		/**
+		 *改变图库图标颜色（黑白灰）
+		 ***/
+		function iconColor(v){
+			switch(v){
+				case 1: v = "black"; $(".sMiddle").css("background","#FFFFFF"); break;
+				case 2: v = "gray"; $(".sMiddle").css("background","#FFFFFF"); break;
+				case 3: v = "white"; $(".sMiddle").css("background","#EEEEEE"); break;
+			}
+			$(".iconBox img").each(function(){
+				$(this).attr("src","images/icon/"+$(this).attr("src").replace($(this).attr("src").split("_")[0], v));
+				{#if $tab_info.ticon}
+					if($(this).attr("src") == "{#$tab_info.ticon}") {
+						$(this).addClass("selected");
+						$("input[name=ticon]").val($(this).attr("src"));
+					}
+				{#/if}
+			})		
+		}
+		
+		/**
+		 *Star 向左向右滚动换图
+		 ***/
+		var stepWidth, ulWidth;
+		
+		var scrollToLeft = function(){
+			left = parseInt($(".sMiddle ul").css("margin-left").split("px")[0]);
+			left = -parseInt((Math.ceil(-left/stepWidth))*stepWidth);	
+			if(ulWidth-stepWidth+left>0){
+				$(".sMiddle ul").animate( { marginLeft: (left-stepWidth)+"px" } , 300, function(){
+					left = parseInt($(".sMiddle ul").css("margin-left").split("px")[0]);
+					left = -parseInt((Math.ceil(-left/stepWidth))*stepWidth);	
+					if(ulWidth-stepWidth+left<=0) $(".sLeft").css("color", "#CCCCCC");
+					if(left<0) $(".sRight").css("color", "#000000");
+				});
+			}
+
+		}
+
+		var scrollToRight = function(){
+			left = parseInt($(".sMiddle ul").css("margin-left").split("px")[0]);
+			left = -parseInt((Math.ceil(-left/stepWidth))*stepWidth);
+			if(left<0){
+				$(".sMiddle ul").animate( { marginLeft: (left+stepWidth)+"px" } , 300, function(){
+					left = parseInt($(".sMiddle ul").css("margin-left").split("px")[0]);
+					left = -parseInt((Math.ceil(-left/stepWidth))*stepWidth);
+					if(ulWidth-stepWidth+left>0) $(".sLeft").css("color", "#000000");
+					if(left>=0) $(".sRight").css("color", "#CCCCCC");
+				});
+			}
+		}
+		/**
+		 *End 向左向右滚动换图
+		 ***/
+		
+		KindEditor.ready(function(K) {
+			editor = K.create('textarea[name="adescription"]', {
+				width : '500px',
+				height : '200px',
+				allowFileManager : true
+			});
+		});
+		
+		function addFeatureform(){
+			if($("input[name=tname]").val().replace(/(^\s*)|(\s*$)/g, "") == "") {$(".msg").text('Please fill in the Feature Name.'); return false; }
+			/*else if($("input[name=tname]").val().length > 20) {$(".msg").text('The Feature Name must be less than 20 character.'); return false; }*/
+			else if(!($("#default:checked").length>0 || ($("#existing:checked").length>0 && $(".sMiddle ul img.selected").length>0) || ($("#upload:checked").length>0 && $("input[name=uploadicon]").val()!=''))) {$(".msg").text('Please fill in the App Icon.'); return false; } 
+			else return true;
+		}
+	</script>
+{#/block}
+{#block name=content}
+
+	<div id="container">
+			
+			<div class="content popcontent" style="width: 500px">
+				
+				<div class="content_p">
+					<form action="{#$action}" method="post" onsubmit="return addFeatureform();">
+						<h2 class="popTitle">Function name:&nbsp;{#$title}</h2>
+						<input type="hidden" name="aid" value="{#$aid}" />
+						<input type="hidden" name="ticon" value="" />
+						<table class="form">
+							<tr>
+								<th>Feature Name*</th>
+								<td><input type="text" name="tname" value="{#$tab_info.tname}" /></td>
+							</tr>
+							<tr>
+								<th valign="top">Feature Icon</th>
+								<td>
+									<p><input type="radio" name="icontype" id="default" value="0" class="radio" style="border: 0;"{#if $tab_info.ticon_type eq 0} checked="checked"{#/if} /><label>Use Default Icon</label></p>
+									<p><input type="radio" name="icontype" value="1" id="existing" class="radio" style="border: 0;"{#if $tab_info.ticon_type eq 1} checked="checked"{#/if} />
+										Select Stock Icon&nbsp;(<span id="colorarea">
+											<input type="radio" name="color" class="radio" value="1" {#if $tab_info.ticon_color eq 1} checked="checked"{#/if}{#if $tab_info.ticon_type neq 1} disabled="disabled"{#/if} /> Black &nbsp;
+											<input type="radio" name="color" class="radio" value="2" {#if $tab_info.ticon_color eq 2} checked="checked"{#/if}{#if $tab_info.ticon_type neq 1} disabled="disabled"{#/if}/> Gray &nbsp;
+											<input type="radio" name="color" class="radio" value="3" {#if $tab_info.ticon_color eq 3} checked="checked"{#/if}{#if $tab_info.ticon_type neq 1} disabled="disabled"{#/if}/> White &nbsp;
+										</span>)</p>
+									<div class="icon">
+										<div class="sRight"><<</div>
+										<div class="sMiddle">
+											<div class="iconBox">
+												<ul>
+												{#if $icon_list neq ''}
+													{#foreach from=$icon_list item=item}
+													<li>
+														{#foreach from=$item item=childitem}
+														<img src="{#$childitem.icon}" alt="{#$childitem.iid}"{#if $childitem.icon eq $tab_info.ticon} class="selected"{#/if}/>
+														{#/foreach}
+													</li>
+													{#/foreach}
+												{#/if}
+												</ul>
+											</div>
+										</div>
+										<div class="sLeft">>></div>
+									</div>
+									<p><input type="radio" name="icontype" id="upload" value="2" class="radio" style="border: 0;"{#if $tab_info.ticon_type eq 2} checked="checked"{#/if} /><label>Upload Icon</label></p>
+									<div class="uploadarea">
+										<input type="file" id="file_upload" name="file_upload"/>
+										<input type="hidden" name="uploadicon" value="{#$tab_info.ticon}" />
+										<img src="images/upload_img.jpg" id="upload_img"/>
+										<div id="icon_image">
+										{#if $tab_info.ticon neq "" && $tab_info.ticon_type eq 2}
+											<img src="{#$tab_info.ticon}" width="25" height="25"/>
+										{#/if}
+										</div>	
+										<span>The image should be less than 1 MB in PNG and 48px wide by 48px high</span>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<th>Status*</th>
+								<td><p><input type="radio" name="tstatus" value="1" class="radio" style="border: 0;"{#if $tab_info.tstatus eq 1 || $tab_info.tstatus eq ''} checked="checked"{#/if} /><label>Active</label>
+									<input type="radio" name="tstatus" value="0" class="radio" style="border: 0;"{#if $tab_info.tstatus eq 0 && $tab_info.tstatus neq ''} checked="checked"{#/if} /><label>Inactive</label>
+								</p></td>
+							</tr>
+							<tr>
+								<th></th>
+								<td><input type="submit" value="Save" class="input_btn" /></td>
+							</tr>					
+							<tr>
+								<th></th>
+								<td><p class="msg"></p></td>
+							</tr>					
+						</table>
+					</form>
+				</div>
+				
+			</div>
+	</div>	
+		
+
+{#/block}

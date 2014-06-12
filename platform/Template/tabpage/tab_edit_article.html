@@ -1,0 +1,88 @@
+<script language="javascript">
+	$().ready(function(){
+		$('#file_upload').uploadify({
+			'uploader'  : 'common/uploadify/uploadify.swf',
+			'script'    : 'common/uploadify/uploadify.php',
+			'cancelImg' : 'common/uploadify/cancel.png',
+			'folder'    : 'uploads/images',
+			'fileExt'   : '*.png',
+			'fileDesc'  : 'Web Image Files(*.png)',
+			<!-- 'scriptData': {'width':60,'height':60,'mark':'<=','stay':'image'}, -->
+			'scriptData': {'stay':'image'},
+			'auto'      : true,
+			'onComplete'  : function(event, ID, fileObj, response, data) {
+					if(response == '-1'){
+						$('#file_upload').uploadifyClearQueue();
+						alert('The image should be less than 1 MB in PNG and 60px wide by 60px high.');return false;
+					}else{
+					$('#icon_image').html('<img src="uploads/images/'+response.split("/").slice(-1)+'" width="25" height="25"/>');
+					$('input[name=articon]').val("uploads/images/"+response.split("/").slice(-1));					
+				}
+			}
+		});
+	})
+	
+	/**
+	 *提交表单验证
+	 ***/
+	function pageEditForm(){
+		if($("input[name=artname]").val()=='') {$(".msg").text('Please fill in Title field.'); return false; }
+		/*else if($("input[name=artname]").val().length > 15) {$(".msg").text('The Title field must be less than 15 character.'); return false; } */
+		else if($("input[name=articon]").val() == '') {$(".msg").text('Please upload Thumbnail.'); return false; }
+		else if($("input[name=artpublish_time]").val() == '') {$(".msg").text('Please fill in "Date" field.'); return false; }
+		else if($("textarea[name=artshort_description]").val() == '') {$(".msg").text('Please fill in "News Summary" field.'); return false; }
+		else if($("textarea[name=artshort_description]").val().length > 100) {$(".msg").text('The News Summary must be less than 100 characters.');return false; } 
+		/*else if($("textarea[name=artcontent]").val() == ''&& $("input[name=content_word_count]").val()<=0) {$(".msg").text('Please fill in "Page Detail" field.'); return false; }*/
+		else if($("input[name=content_word_count]").val()<=0) {$(".msg").text('Please fill in "Page Detail" field.'); return false; }
+		else return true;
+	}
+</script>
+<table class="form">
+	<tr>
+		<th>Title*</th>
+		<td><input type="text" name="artname" value="{#$article_info.artname}" /></td>
+	</tr>
+	<tr>
+		<th>Thumbnail*</th>
+		<td>
+			<input type="file" id="file_upload" name="file_upload"/>
+			<input type="hidden" name="articon" value="{#$article_info.articon}" />
+			<div id="icon_image">
+			{#if $article_info.articon neq ""}
+				<img src="{#$article_info.articon}" width="25" height="25"/>
+			{#/if}
+			</div>
+			<span>The image should be less than 1 MB in PNG and 60px wide by 60px high.</span>
+		</td>
+	</tr>
+	<tr>
+		<th>Date*</th>
+		<td><input type="text" name="artpublish_time" value="{#$article_info.artpublish_time}" onclick="SelectDate(this,'yyyy-MM-dd hh:mm')" readonly="readonly" /></td>
+	</tr>
+	<tr>
+		<th>Status*</th>
+		<td><p><input type="radio" name="artstatus" value="1" class="radio" style="border: 0;"{#if $article_info.artstatus eq 1 || $article_info.artstatus eq ''} checked="checked"{#/if} /><label>Active</label>
+			<input type="radio" name="artstatus" value="0" class="radio" style="border: 0;"{#if $article_info.artstatus eq 0 && $article_info.artstatus neq ''} checked="checked"{#/if} /><label>Inactive</label>
+		</p></td>
+	</tr>
+	<tr>
+		<th valign="top">News Summary *</th>
+		<td><textarea name="artshort_description" style="width: 490px; height: 100px;">{#$article_info.artshort_description}</textarea>
+		<p>(Less than 100characters.)</p>
+		</td>
+	</tr>
+	<tr>
+		<th valign="top">Page Detail*</th>
+		<td><textarea name="artcontent" id="content">{#$article_info.artcontent}</textarea>
+			<input type="hidden" name="content_word_count" value="0" />
+		</td>
+	</tr>
+	<tr>
+		<th></th>
+		<td><input type="submit" value="Save" class="input_btn" /></td>
+	</tr>					
+	<tr>
+		<th></th>
+		<td><p class="msg"></p></td>
+	</tr>					
+</table>

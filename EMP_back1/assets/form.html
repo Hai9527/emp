@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no" />
+<title>Form</title>
+<style type="text/css">
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	color: <!-- color-->;
+	font-size: 14px;
+	font-family: Arial;
+}
+
+h2 {
+	font-size: 18px;
+	padding-left: 10px;
+	margin: 10px 0;
+}
+
+p {
+	line-height: 35px;
+	overflow: hidden;
+}
+
+label {
+	display: block;
+	float: left;
+	width: 120px;
+	height: 30px;
+	line-height: 30px;
+	padding-top: 5px;
+	padding-left: 10px
+}
+
+input {
+	margin: 5px 0;
+	line-height: 20px;
+	border: 0;
+	border-radius: 4px;
+}
+
+br {
+	clear: both;
+}
+#Tdialog, #Tdialog input{
+	background: <!--colorbg-->;
+}
+#Tdialogbg{
+	background: #000000;
+}
+
+#Tdialog{
+	display: none;
+	width: 70%;
+	height: 30%;
+	position: fixed;
+	left: 15%;
+	top: 30%;
+	z-index: 101;
+	opacity: 0.7;
+	border-radius: 10px;
+
+    border-widthL: 2px;
+    border-style: solid;
+    border-color: <!--colorbg2-->;
+}
+
+#Tdialog p{
+	padding: 10px 15px 0 15px;
+	font-size: 18px;
+	line-height: 20px;
+}
+#Tdialog input {
+	padding: 0 30px;
+	width: 100px;
+	font-size: 20px;
+	border-radius: 4px;
+	font-weight: bolder;
+}
+#Tdialog p, #Tdialog input {	
+	color: <!--colortext-->;
+}
+
+#Tdialogbg{
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	opacity: 0.5;
+	z-index: 100;
+	display: none;
+}
+</style>
+<script language="javascript">
+			var status = 1;
+      		function done(){
+      			if(status == 1){
+          			<!--script-->    			
+      			} 
+      		}
+      		function checkedBoxToggle(name){
+				var result=false; 
+				for(var i=0;i<document.getElementsByName(name).length;i++){
+					if(document.getElementsByName(name)[i].checked){
+					  result=true;
+					}
+				}  
+				return result;
+			}
+      		
+      		function checkedFormat(name){
+      			var result = "";
+      			var ob = document.getElementsByName(name)[0];
+      			var myReg = /^[-_A-Za-z0-9]+@([_A-Za-z0-9]+\.)+[A-Za-z0-9]{2,3}$/;
+      			var regu = /^[-]{0,1}[0-9]{1,}$/;
+      			if(name.indexOf("email") !== -1 && !myReg.test(ob.value)){
+      				result = "Please fill in the current format email address";
+      			}else if(name.indexOf("phone") !== -1 && !regu.test(ob.value)){
+      				result = "Please fill in the current format phone";
+      			}
+      			return result;
+      		}
+      		
+      		function hideDialog(){
+      			document.getElementById("Tdialog").style.display="none";
+      			document.getElementById("Tdialogbg").style.display="none";    
+      			document.getElementById("message").innerText=""; 
+      		}
+      		
+      </script>
+
+</head>
+<body>
+	<h2>
+		<!--introduction-->
+	</h2>
+	<form action="http://myapp/subscribe" method="get" id="forma"
+		name="apiForm">
+		<!--content-->
+	</form>
+	<div id="Tdialog">
+		<p id="message"></p>
+		<p style="text-align: center;"><input type="button" value="OK" style=" font-size: 14px; padding: 5px 10px;" onclick="hideDialog();" /></p>
+	</div>
+	<div id="Tdialogbg"></div>
+</body>
+</html>

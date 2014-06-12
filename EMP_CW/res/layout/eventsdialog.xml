@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/eventDialogBg"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/event_textView_txtShare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dip"
+        android:layout_marginLeft="20dip"
+        android:layout_marginRight="100dip"
+        android:layout_marginTop="20dip"
+        android:textSize="16sp" />
+
+    <!--
+    <TextView
+        android:id="@+id/event_textView_txtLineOne"
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="10dip" />
+
+    <TextView
+        android:id="@+id/event_textView_txtAttending"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dip"
+        android:layout_marginLeft="20dip"
+        android:layout_marginRight="100dip"
+        android:layout_marginTop="20dip"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/event_textView_txtLineTwo"
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="10dip" />
+
+    <TextView
+        android:id="@+id/event_textView_txtMight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dip"
+        android:layout_marginLeft="20dip"
+        android:layout_marginRight="100dip"
+        android:layout_marginTop="20dip"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/event_textView_txtLineThree"
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="10dip" />
+
+    <TextView
+        android:id="@+id/event_textView_txtNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dip"
+        android:layout_marginLeft="20dip"
+        android:layout_marginRight="100dip"
+        android:layout_marginTop="20dip"
+        android:textSize="16sp" />
+    -->
+
+</LinearLayout>

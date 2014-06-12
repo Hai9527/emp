@@ -1,0 +1,116 @@
+{#extends file='Main.Master.html'}
+{#block name=head}
+<!--silde show-->
+	<script type="text/javascript" src="js/silde_show/jquery.jcarousel.pack.js"></script>
+	<link rel="stylesheet" type="text/css" href="js/silde_show/jquery.jcarousel.css" />
+	<link rel="stylesheet" type="text/css" href="js/silde_show/skins/tango/skin.css" />
+
+<!--color box-->
+	<link rel="stylesheet" href="css/colorbox.css" />
+	<link rel="stylesheet" href="css/template.css" />
+	<script src="js/jquery.colorbox.js"></script>
+	<script charset="utf-8" type="text/javascript">
+		$().ready(function() {
+			jQuery('#template_music').jcarousel();
+			jQuery('#template_event').jcarousel();
+			jQuery('#template_movie').jcarousel();
+
+			$(".group1").colorbox({rel:'group1',width:"400px", height:"300px"});
+			$(".group2").colorbox({rel:'group2',width:"400px", height:"300px"});
+			$(".group3").colorbox({rel:'group3',width:"400px", height:"300px"});
+			/*$('input[name=edit]').click(function() {
+				$('input[name=save]').removeAttr("disabled");
+				$('input[name=edit]').attr("disabled","disabled");
+			});
+
+			$(".cover").height($(".form").height());
+			$(".cover").mousemove(function(){
+				$(this).removeAttr("title").removeAttr("alt").attr("title","aaa").attr("alt","aaa")
+				})*/
+
+			/**
+			 *下一页按钮
+			 ***/
+			$(".next").hover(function(){
+				$("#draw").html("Click here to next step.");
+			},function(){
+				$("#draw").html("");
+			})
+
+			$(".back").hover(function(){
+				$("#draw").html("Click here to previous step.");
+			},function(){
+				$("#draw").html("");
+			})
+		});
+        /**
+         *验证表单提交
+         ***/
+        function basicInfoForm(){
+            if($("input[name=temid]:checked").length < 1) {$(".msg").text('Please select the templates.'); return false; }
+            else return true;
+        }
+    </script>
+{#/block}
+
+{#block name=content}
+	<div id="container">
+
+{#include file="Header.html"}
+	<div class="breadcrumb">
+		<p class="nav"><span style="font-size:18px;font-weight:bold;">Step 2--Select Templates</span></p>
+	</div>
+{#include file="Course.html"}
+		<div id="divBody">
+			<p style="text-align:left; margin-top:20px;">Select one of the following provided templates to set a style for your app. For different templates, there are different creative treatment for app navigation, title bar, scroll bar, tab, Image list view, etc</p>
+			<div class="content" style="margin-top: 20px;">
+				<form action="?c=template&a=saveAppTemid&aid={#$aid}" method="post" onsubmit="return basicInfoForm();">
+					<input type="radio" class="radio" name="temid"{#if $temid eq 1} checked="checked"{#/if} value="1"/>Music Template<span style="margin-left:50px;font-weight:bold;cursor: pointer" onclick="$(this).next().next().find('li a:first').click();">Singer Example App</span><br/>
+						<ul id="template_music" class="jcarousel-skin-tango">
+						{#foreach from=$music_image item=item}
+							<li><a href="{#$item.tiimage}" class="group1">
+								<img src="{#$item.tiimage}" width="75" height="100" alt="" /><span class="title">{#$item.tiname}</span>
+							</a></li>
+						{#/foreach}
+						</ul>
+					<br/>
+
+					<input type="radio" class="radio" name="temid"{#if $temid eq 2} checked="checked"{#/if} value="2"/>Event Template<span style="margin-left:50px;font-weight:bold;cursor: pointer" onclick="$(this).next().next().find('li a:first').click();">Event Example App</span><br/>
+						<ul id="template_event" class="jcarousel-skin-tango">
+						{#foreach from=$event_image item=item}
+							<li><a href="{#$item.tiimage}" class="group2">
+								<img src="{#$item.tiimage}" width="75" height="100" alt="" /><span class="title">{#$item.tiname}</span>
+							</a></li>
+						{#/foreach}
+						</ul>
+					<br/>
+
+					<input type="radio" class="radio" name="temid"{#if $temid eq 3} checked="checked"{#/if} value="3"/>Movie Template<span style="margin-left:50px;font-weight:bold;cursor: pointer" onclick="$(this).next().next().find('li a:first').click();">Movie Example App</span><br/>
+						<ul id="template_movie" class="jcarousel-skin-tango">
+						{#foreach from=$movie_image item=item}
+							<li><a href="{#$item.tiimage}" class="group3">
+								<img src="{#$item.tiimage}" width="75" height="100" alt="" /><span class="title">{#$item.tiname}</span>
+							</a></li>
+						{#/foreach}
+						</ul>
+					<br/>
+
+					<!-- <input type="submit" class="input_btn" value="save"> -->
+
+				<input type="submit" value="Save" name="save" class="input_btn"/>
+				<!-- <input type="button" value="Edit" name="edit" class="input_btn"{#if $temid eq ''} style="display:none;"{#/if} />
+				</form><div class="cover"{#if $temid eq ''} style="display:none;"{#/if}></div> -->
+				<p class="msg"></p>
+
+				<p style="text-align: right">
+					<a href="?c=main&a=create&step=basic_info&aid={#$aid}&do=edit" class="button back">Back</a>
+                    <a href="?c=main&a=create&step=add_feature&aid={#$aid}" class="button next">Next</a>
+					<div class="clear"></div>
+				</p>
+				<p id="draw" style="text-align: right; height:15px;"></p>
+			</div>
+
+		</div>
+{#include file="Footer.html"}
+	</div>
+{#/block}

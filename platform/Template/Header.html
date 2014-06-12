@@ -1,0 +1,64 @@
+<div id="divHeader">
+
+	<div id="logo">	
+	
+		<h1><a href="index.php">EMP</a></h1>
+	
+	</div>
+	
+	<div id="h_content">
+		{#if $username neq ''}
+		<div id="login">
+				
+			<p>
+				<span>Hi, {#$username}</span>&nbsp;|&nbsp;
+				<a href="?c=log&a=logout">Logout</a>
+				{#if $path eq 'admin'}&nbsp;|&nbsp;
+				{#if $new_count eq 0}
+				<span>New Submitted Apps&nbsp;(0)</span>
+				{#else}
+				<a href="?c=admin_app&ord=submit">New Submitted Apps&nbsp;({#$new_count})</a>
+				{#/if}
+				{#/if}
+				
+				{#if $utype eq 1}&nbsp;|&nbsp;
+				{#if $path eq 'admin'}
+					<a href="?c=main">Go to EMP Site</a>
+				{#else}
+					<a href="?c=admin">Back to Admin View</a>
+				{#/if}
+				{#/if}
+			</p>
+			
+		</div>
+		
+		<div id="menu">
+			
+			<p>
+				{#if $path eq 'admin'}
+				<a href="?c=admin_user">User Management</a>
+				<a href="?c=admin_app" class="last">App Management</a>
+				{#else}
+				<a href="?c=main">My Apps</a>
+				<a href="?c=main&a=create&step=basic_info">Building App</a>
+				<a href="?c=account" class="last">My Account</a>
+				{#/if}
+			
+			</p>
+		
+		</div>
+		{#/if}
+		<!-- {#if $utype eq 1}
+		<div id="switch">
+			{#if $path eq 'admin'}
+			<a href="?c=main">Go to EMP Site</a>
+			{#else}
+			<a href="?c=admin">Back to Admin View</a>
+			{#/if}
+		</div>
+		{#/if} -->
+	</div>
+	
+	<div class="clear"></div>
+
+</div>

@@ -1,0 +1,50 @@
+{#extends file='Main.Master.html'}
+{#block name=head}
+<script language="javascript">
+	function checkApp(){
+		if(window.confirm('Are you sure you want to delete this record?')){
+			window.location.href = "?c=main&a=create&step=complete";
+		}		
+	}
+</script>
+{#/block}
+{#block name=content}
+
+	<div id="container">
+	
+		{#include file="Header.html"}
+	
+		{#*{#include file="Course.html"}*}
+		
+		<div id="divBody">
+			
+			<div class="content">
+			
+				<div class="breadcrumb">
+					<p class="nav"><a href="index.php">Home</a> > <a href="index.php">My Apps</a> > <span>{#$step}</span></p>
+					<h2 class="title">{#$step|upper}</h2>					
+				</div>
+				
+				<div class="content_p">
+					
+					<div class="content_b">		
+						{#if $astatus eq 0}
+						<p class="notice">Your app has been submitted to our system. Please wait for notification.</p>
+						{#else if}
+						<p class="notice">Your app has been updated in real_time and the App Users can view the updates once they connect to internet.</p>
+						{#/if}
+						<p>Click <a href="?c=main">here</a> or the page will return to My App automatically after <span class="time">5</span> second.</p>
+						<script language="javascript">var jump = setInterval(function(){ if($(".time").text()!=0) {$(".time").text(parseInt($(".time").text())-1);} else {window.location.href="?c=main"; clearInterval(jump)}}, 1000)</script>
+					</div>
+				</div>
+				
+			</div>
+
+		</div>	
+		
+		<div class="clear"></div>
+		
+		{#include file="Footer.html"}
+	
+	</div>
+{#/block}

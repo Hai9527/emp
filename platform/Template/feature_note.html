@@ -1,0 +1,22 @@
+{#extends file='Main.Master.html'}
+{#block name=head}
+<link rel="stylesheet" href="css/popup.css">
+<script charset="utf-8">
+	$().ready(function(){
+		parent.$.colorbox.resize({width:400, height:280});
+		setTimeout(function(){parent.history.go(0)}, 5000);
+	})
+</script>
+{#/block}
+{#block name=content}
+
+	<div id="container">
+			
+			<div class="content popcontent" style="width: auto;">
+				
+				<div class="content_p" style="margin: 20px; font-size: 16px;">
+					<p>The feature you added has been saved into the "Feature List" successfully. Next, you can click "Step 4 - - Customize Feature" to make your customizations</p>
+				</div>				
+			</div>
+	</div>	
+{#/block}

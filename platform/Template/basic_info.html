@@ -1,0 +1,269 @@
+{#extends file='Main.Master.html'}
+{#block name=head}
+	<!-- uploadify start -->
+	<link href="common/uploadify/uploadify.css" type="text/css" rel="stylesheet" />
+	<script type="text/javascript" src="common/uploadify/swfobject.js"></script>
+	<script type="text/javascript" src="common/uploadify/jquery.uploadify.v2.1.4.min.js"></script>
+	<!-- uploadify end -->
+	
+	<!-- kindeditor start -->
+	<script charset="utf-8" src="common/kindeditor/kindeditor-min.js"></script>
+	<script charset="utf-8" src="common/kindeditor/lang/zh_CN.js"></script>
+	<!-- kindeditor end -->
+	
+	<script charset="utf-8">
+		$().ready(function(){
+            /***文件上传1***/		
+			$('#file_upload').uploadify({
+				'uploader'  : 'common/uploadify/uploadify.swf',
+				'script'    : 'common/uploadify/uploadify.php',
+				'cancelImg' : 'common/uploadify/cancel.png',
+				'folder'    : 'uploads/images',
+				'fileExt'   : '*.png',
+				'fileDesc'  : 'Web Image Files(*.png)',
+				<!-- 'scriptData': {'width':48,'height':48,'mark':'<=','stay':'image'}, -->
+				'scriptData': {'stay':'image'},
+				'auto'      : true,
+				'onComplete'  : function(event, ID, fileObj, response, data) {
+					if(response == '-1'){
+						$('#file_upload').uploadifyClearQueue();
+						alert('The image should be less than 1 MB in PNG and 48px wide by 48px high');return false;
+					}else{
+						$('#icon_image').html('<img src="uploads/images/'+response.split("/").slice(-1)+'" width="80"/>');
+						$('input[name=aicon]').val("uploads/images/"+response.split("/").slice(-1));					
+					}
+				}
+			});
+            /***文件上传2***/			
+			$('#file_upload2').uploadify({
+				'uploader'  : 'common/uploadify/uploadify.swf',
+				'script'    : 'common/uploadify/uploadify.php',
+				'cancelImg' : 'common/uploadify/cancel.png',
+				'folder'    : 'uploads/images',
+				'fileExt'   : '*.png',
+				'fileDesc'  : 'Web Image Files(*.png)',
+				<!-- 'scriptData': {'width':320,'height':480,'mark':'<=','stay':'image'}, -->
+				'scriptData': {'stay':'image'},
+				'auto'      : true,
+				'onComplete'  : function(event, ID, fileObj, response, data) {
+					if(response == '-1'){
+						$('#file_upload2').uploadifyClearQueue();
+						alert('The image should be less than 1 MB in PNG and 320px wide by 480px high');return false;
+					}else{
+						$('#icon_load').html('<img src="uploads/images/'+response.split("/").slice(-1)+'" width="80"/>');
+						$('input[name=aload_image]').val("uploads/images/"+response.split("/").slice(-1));
+					}
+				}
+			});
+			
+			/*$('input[name=edit]').click(function() {
+				$('input[name=submit]').removeAttr("disabled");
+				$('input[name=edit]').attr("disabled","disabled");
+				$(".cover").hide();
+			});*/
+			//$(".cover").height($(".form").height());
+			
+					
+			/**
+			 *下一页按钮
+			 ***/
+			$(".next").hover(function(){
+				$("#draw").html("Click here to next step.");
+			},function(){
+				$("#draw").html("");
+			})
+			
+		})
+		
+		/**
+		 *文本框
+		 ***/
+		KindEditor.ready(function(K) {
+			editor = K.create('textarea[name="adescription"]', {
+				width : '500px',
+				height : '200px',
+				allowFileManager : true, 
+				afterChange : function() {
+					K('input[name=description_word_count]').val(this.count('text'));
+				}
+			});
+			/*$(".cover").height($(".form").height());
+			$(".cover").mousemove(function(){
+			$(this).removeAttr("title").removeAttr("alt").attr("title","aaa").attr("alt","aaa")
+			}) */
+		});
+
+        /**
+		 *验证表单提交
+		 ***/		
+		function basicInfoForm(){
+			if($("input[name=aname]").val() == '') {$(".msg").text('Please fill in the App Name.'); return false; }
+			else if($("input[name=aname]").val().length > 13) {$(".msg").text('The App Name must be less than 13 character.'); return false; } 
+			else if($("input[name=aicon]").val() == '') {$(".msg").text('Please upload the App Icon.'); return false; } 
+			else if($("input[name=aload_image]").val() == '') {$(".msg").text('Please upload the App Loading Image.'); return false; } 
+			else if($("input[name=adescription]").val() == '' || $("input[name=description_word_count]").val()<=0) {$(".msg").text('Please fill in "App Description" field.'); return false; } 
+			else return true;
+		}
+
+	</script>
+{#/block}
+{#block name=content}
+
+	<div id="container">
+	
+		{#include file="Header.html"}
+	
+		<div class="breadcrumb">
+			<p></p>
+			<!-- <p class="nav"><a href="index.php">Home</a> > <a href="index.php">My Apps</a> > <span>Fill in {#$step|capitalize}</span></p>
+			<h2 class="title">{#$step|upper}</h2> -->	
+			<p class="nav"><span style="font-size:18px;font-weight:bold;">Step 1--Add App Information</span></p>
+		</div>
+		
+		{#include file="Course.html"}
+		
+		<div id="divBody">
+			
+			<div class="content">
+							
+				<div class="content_p">
+				<p class="nav" style="font-size:16px;margin-top:10px;font-weight:bold;">Basic Information</p>
+					<form action="{#$action}" method="post" onsubmit="return basicInfoForm();" style="position: relative;">
+						<input type="hidden" name="acid" value="{#$app_info.acid}" />
+						<table class="form">
+							<tr>
+								<th>App Name*</th>
+								<td>
+                                	{#if $stay == 'approved'}
+                                    {#$app_info.aname}
+                                    {#else}
+                                	<input type="text" name="aname" value="{#$app_info.aname}" /><br><span>(Less than 13 characters.)</span>
+                                	{#/if}
+                                </td>
+							</tr>
+							<tr>
+								<th valign="top">App Icon for Android Device/Market*</th>
+								<td>
+                                	{#if $stay == 'draft'}
+									<input type="file" id="file_upload" name="file_upload"/>
+                                    {#/if}
+									<input type="hidden" name="aicon" value="{#$app_info.aicon}"/>
+									<div id="icon_image">
+									{#if $app_info.aicon neq ""}
+										<img src="{#$app_info.aicon}" width="80"/>
+									{#/if}
+									</div>
+                                    {#if $stay == 'draft'}					
+									<span>(The image should be less than 1 MB in PNG and 48px wide by 48px high)</span>
+                               		{#/if}
+                               </td>
+							</tr>
+							<tr>
+								<th valign="top">Loading Image*</th>
+								<td>
+                                	{#if $stay == 'draft'}
+									<input type="file" id="file_upload2" name="file_upload2"/>
+                                    {#/if}
+									<input type="hidden" name="aload_image" value="{#$app_info.aload_image}"/>
+                                    <div id="icon_load">
+									{#if $app_info.aload_image neq ""}
+										<img src="{#$app_info.aload_image}" width="80"/>
+									{#/if}
+									</div>
+                                    {#if $stay == 'draft'}					
+									<span>(The image should be less than 1 MB in PNG and 320px wide by 480px high)</span>
+                               		{#/if}
+                               </td>
+							</tr>
+							<tr>
+								<th valign="top">App Description*</th>
+								<td>
+                                	{#if $stay == 'draft'}
+                                	<textarea name="adescription">{#$app_info.adescription}</textarea>
+									<input type="hidden" name="description_word_count" value="0" />
+                                    {#else}
+                                    <div>
+                                    	{#$app_info.adescription}
+                                    </div>
+                                    {#/if}
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2"><span style="font-size:14px;font-weight:bold;">Advanced Information</span><br />{#if $stay == 'draft'}(If you have created Sina Weibo account for this app, please fill in the following information got from the creation process. If not, it will get the EMP Sina Weibo account and associated information by default.){#/if}
+                                </td>
+							</tr>
+							<tr>
+								<th valign="top">Sina Weibo Account</th>
+								<td>
+                                	{#if $stay == 'draft'}
+                                	<textarea style="width:490px;height:50px;" name="weibo_name" >{#$app_info.weibo_name}</textarea>
+									<br/>(Enter the name which you create a phone application in Sina Weibo.)
+                                    {#else}
+                                    {#$app_info.weibo_name}
+                                    {#/if}
+								</td>
+							</tr>
+							<tr>
+								<th valign="top">Sina Weibo Consumer Key</th>
+								<td>
+                                	{#if $stay == 'draft'}
+									<textarea style="width:490px;height:50px;" name="weibo_key" {#if $stay == 'approved'} disabled="disabled"{#/if}>{#$app_info.weibo_key}</textarea>
+									<br/>(Enter the Key generated when you create a phone application in Sina Weibo.)
+									{#else}
+                                    {#$app_info.weibo_name}
+                                    {#/if}
+                                </td>
+							</tr>
+							<tr>
+								<th valign="top">Sina Weibo Consumer Secret</th>
+								<td>
+									{#if $stay == 'draft'}
+                                    <textarea style="width:490px;height:50px;" name="weibo_secret" {#if $stay == 'approved'} disabled="disabled"{#/if}>{#$app_info.weibo_secret}</textarea>
+									<br/>(Enter the Secret generated when you create a phone application in Sina Weibo.)
+									{#else}
+                                    {#$app_info.weibo_name}
+                                    {#/if}
+                                </td>
+							</tr>
+							<!-- <tr>
+								<th>Status*</th>
+								<td><p><input type="radio" name="astatus" value="1" class="radio" style="border: 0;"{#if $app_info.astatus eq 1|| $app_info.astatus eq ''} checked="checked"{#/if} /><label>Active</label>
+									<input type="radio" name="astatus" value="0" class="radio" style="border: 0;"{#if $app_info.astatus eq 0 && $app_info.astatus neq ''} checked="checked"{#/if} /><label>Inactive</label>
+								</p></td>
+							</tr> -->
+							<tr>
+								<th></th>
+								<td>
+                                	{#if $stay != 'approved'}
+                                	<input type="submit" value="Save" name="submit" class="input_btn"/>
+                                    {#/if}
+									<!-- <input type="button" value="Edit" name="edit" class="input_btn"{#if $app_info.aid eq ''} style="display:none;"{#/if} /> -->
+								</td>
+							</tr>	
+							<tr>
+								<th></th>
+								<td><p class="msg"></p></td>
+							</tr>
+						</table>
+						<!--<div class="cover"{#if $app_info.aid eq ''} style="display:none;"{#/if}></div> -->
+						<!-- <div class="cover"{#if $app_info.aid eq ''} style="display:none;"{#/if} alt="aaa" title="bbb"></div> -->
+					</form>
+				</div>
+				<p style="text-align: right">
+					<!-- <a href="?c=main" class="button back">Back</a> -->
+                    {#if $app_info.aname != ''}
+					<a href="?c=main&a=create&step=select_template&aid={#$aid}" class="button next">Next</a>
+                    {#/if}
+					<div class="clear"></div>
+				</p>
+				<p id="draw" style="text-align: right; height:15px;"></p>		
+			</div>
+
+		</div>	
+		
+		<div class="clear"></div>
+		
+		{#include file="Footer.html"}
+	
+	</div>
+{#/block}

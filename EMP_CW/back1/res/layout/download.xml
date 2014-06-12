@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="fill_parent"
+	android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+	<RelativeLayout android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+		<ProgressBar android:layout_height="wrap_content"
+			android:layout_width="wrap_content" android:id="@+id/download_progressBar"
+			android:layout_centerVertical="true" android:layout_centerHorizontal="true"></ProgressBar>
+	</RelativeLayout>
+
+	<LinearLayout android:orientation="vertical"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
+		android:id="@+id/download_body">
+		<RelativeLayout android:layout_width="fill_parent"
+			android:layout_height="50dip" android:id="@+id/download_navigation">
+			<TextView android:layout_height="wrap_content"
+				android:layout_width="wrap_content" style="@style/top_navigation_title"
+				android:layout_centerVertical="true"
+				android:layout_centerHorizontal="true" android:id="@+id/download_title"
+				android:text="@string/download"></TextView>
+			<Button  
+				android:layout_height="wrap_content" android:layout_width="wrap_content"
+				android:layout_centerVertical="true" android:layout_alignParentLeft="true"
+				android:id="@+id/download_back"></Button>
+		</RelativeLayout>
+		<LinearLayout android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+			<Button android:layout_height="wrap_content"
+				android:layout_weight="1" android:layout_width="wrap_content"
+				android:id="@+id/download_downloading" android:text="@string/downloading"></Button>
+			<Button android:layout_height="wrap_content"
+				android:layout_weight="1" android:layout_width="wrap_content"
+				android:id="@+id/download_downloaded" android:text="@string/downloaded"></Button>
+		</LinearLayout>
+		<ListView android:id="@+id/download_listView"
+			android:cacheColorHint="#00000000" android:dividerHeight="1px"
+			android:layout_height="wrap_content" android:layout_width="fill_parent"></ListView>
+
+	</LinearLayout>
+</FrameLayout>
+

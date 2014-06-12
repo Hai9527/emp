@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, user-scalable=no" />
+
+<title>Insert title here</title>
+
+<style>   
+body{
+	color: <!--color-->;
+}
+.Image {   
+    width:300px;height:auto;cursor:pointer;   
+     
+     zoom:expression( function(elm) {   
+         if (elm.width>560) {   
+             var oldVW = elm.width; elm.width=560;   
+             elm.height = elm.height*(560 /oldVW);   
+         }   
+         elm.style.zoom = '1';   
+     }(this));   
+}   
+table tr td{
+	font-size: 15px;
+	padding: 5px;
+}
+.content{
+	margin-top:20px;
+	margin-bottom: 0;
+	font-size: 16px;
+}
+</style>
+    
+</head>
+<body >
+
+ 
+
+<table  >
+<tr>
+  <td>Title:  </td>
+  <td><!--title--> </td>
+</tr>
+<tr>
+  <td>Start Time: </td>
+  <td><!--begintime--> </td>
+</tr>
+<tr>
+  <td>End Time: </td>
+  <td><!--endtime--></td>
+</tr>
+<tr>
+  <td>Location: </td>
+  <td><!--location--></td>
+</tr>
+<tr>
+  <td>Host: </td>
+  <td><!--Hoster--></td>
+</tr>
+<tr>
+  <td>Phone: </td>
+  <td><!--Phone--></td>
+</tr>
+<tr>
+  <td>Email: </td>
+  <td><!--Email--></td>
+</tr>
+</table>
+<p class="content"><!--content--></p> 
+</body>
+</html>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, LoadingActivity!</string>
+    <string name="app_name">EMP</string>
+    <string name="gallery">Gallery</string>
+    <string name="end">the End !</string>
+	<string name="top">the Top !</string>
+	<string name="more">More</string>
+	<string name="video">Video</string>
+	<string name="article">Article</string>
+	<string name="event">Event</string>
+	<string name="add_notifigation">Notifigation On/Off</string>
+	<string name="share_as">Share as</string>
+	<string name="attend">Attend</string>
+	<string name="join">Join</string>
+	<string name="description">Description</string>
+	<string name="share_to">Share to</string>
+	<string name="cancel">Cancel</string>
+	<string name="download">Download</string>
+	<string name="downloading">Downloading</string>
+	<string name="downloaded">Downloaded</string>
+	<string name="add_download">have added to download list !</string>
+	<string name="setting">Setting</string>
+	<string name="bing_to_weibo">Binding to WeiBo</string>
+	<string name="if_accept_notification">Do you want to accept Notification ?</string>
+	<string name="nofitication">Nofitication</string>
+	<string name="yes">Yes</string>
+	<string name="no">No</string>
+	<string name="share_dialog_title">Sina WeiBo</string>
+	<string name="message">Message</string>
+	<string name="sigin_in_sina">Sigin in Sina WeiBo</string>
+	<string name="bad_network">No network connection!</string>
+	<string name="send_too_long">Words more than limit !</string>
+	<string name="weibo_bad_request">Weibo Bad Request !!!!</string>
+	<string name="detail">Detail</string>
+	<string name="comment">Comment</string>
+	<string name="add_comment">Add Comment</string>
+	<string name="add">Add</string>
+	<string name="join_success">Join Success!</string>
+	<string name="join_failure">Join Failure!</string>
+	<string name="comment_success">Comment Success !</string>
+	<string name="share">Share</string>
+	<string name="no_thanks">No, thanks</string>
+	<string name="if_share_to_weibo">Would you like to share your comment to Weibo?</string>
+	<string name="close">Close</string>
+	<string name="publish">Publish</string>
+	<string name="appstyle_1">1</string>
+	<string name="appstyle_2">2</string>
+	<string name="appstyle_3">3</string>
+	<string name="submit">Submit</string>
+	<string name="exit">Exit</string>
+	<string name="refresh">Refresh</string>
+	<string name="sina_weibo">Sina WeiBo</string>
+	<string name="binding">Binding</string>
+	<string name="unbind">Unbind</string>
+	<string name="clear_cache">Clear Cache</string>
+	<string name="delete_download_note">if delete this download</string>
+	<string name="delete_download_messager">Are you sure delete this record</string>
+	<string name="check_network_message">Cannot connect to server, please check your network !</string>
+	<string name="check_network_title">Note</string>
+	
+	 <string name="please_login">Please sign in！</string> 
+	 <string name="attention">Attention</string> 
+	  <string name="delete_all">if delete this Weibo ?</string> 
+	  <string name="ok">OK</string> 
+	   <string name="del_pic">if delete this picture ?</string> 
+	   <string name="send_sucess">Share success !</string> 
+  <string name="send_failed">Share Failure !</string> 
+	   
+	  
+	  
+	 
+	
+</resources>

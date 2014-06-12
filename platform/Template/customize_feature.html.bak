@@ -1,0 +1,96 @@
+{#extends file='Main.Master.html'}
+{#block name=head}
+	<link rel="stylesheet" href="css/tab.css">
+	<!-- pop up -->
+	<link rel="stylesheet" href="css/colorbox.css" />
+	<script src="js/jquery.colorbox.js"></script>
+	
+	<!-- sortable start -->
+	<link rel="stylesheet" href="js/themes/base/jquery.ui.all.css">
+	<script src="js/ui/jquery.ui.core.js"></script>
+	<script src="js/ui/jquery.ui.widget.js"></script>
+	<script src="js/ui/jquery.ui.mouse.js"></script>
+	<script src="js/ui/jquery.ui.sortable.js"></script>
+	<link rel="stylesheet" href="css/demos.css">
+	<!-- sortable end -->
+	
+	<!-- uploadify start -->
+	<link href="common/uploadify/uploadify.css" type="text/css" rel="stylesheet" />
+	<script type="text/javascript" src="common/uploadify/swfobject.js"></script>
+	<script type="text/javascript" src="common/uploadify/jquery.uploadify.v2.1.4.min.js"></script>
+	<!-- uploadify end -->
+	
+	<!--htmleditor start-->
+	<script charset="utf-8" src="common/kindeditor/kindeditor-min.js"></script>
+	<script charset="utf-8" src="common/kindeditor/lang/zh_CN.js"></script>
+	<!--htmleditor end-->
+	<script type="text/javascript">
+	$(function() {
+		// sortable
+		$("#sortable li").hover(function(){$(this).find("a.close").show();},function(){$(this).find("a.close").hide();}); 
+	
+		$( "#sortable" ).sortable({items: "li:not(.ui-state-disabled)", opacity: 0.6, cursor: 'move', border: "1px dashed #D3D3D3",update: updateSort});
+		$( "#sortable" ).disableSelection();
+		
+		// colorbox
+		$(".iframe").colorbox({iframe:true});
+	})
+	
+	//htmleditor
+	KindEditor.ready(function(K) {
+		editor = K.create('.description', {
+			width : '500px',
+			height : '200px',
+			allowFileManager : true
+		});
+	})
+	function updateSort(){
+		var tab_arr = new Array();
+		$("li:not(.ui-state-disabled)").each(function(){
+			tab_arr.push($(this).attr("alt"));
+		})
+		$.get("?c=tab&a=sortTab",{tab_arr:tab_arr,aid:{#$aid}});
+	}
+	
+	function deleteTab(tid, ob){
+		if(confirm("Are you sure delete this tab.")){
+			$.get("?c=tab&a=changeStatus",{tid:tid},function(data){
+				ob.parent().remove();
+			})
+		}		
+	}
+	</script>
+{#/block}
+{#block name=content}
+
+	<div id="container">
+	
+		{#include file="Header.html"}
+	
+		{#include file="Course.html"}
+		
+		<div id="divBody">
+			
+			{#include file="Tab.html"}
+			
+			<div class="content">
+			
+				<div class="breadcrumb">
+					<p class="nav"><a href="index.php">Home</a> > <a href="index.php">My Apps</a> > <span>{#$app_tab_info.tname|default:'Loadding Page'}</span></p>
+					<h2 class="title">{#$app_tab_info.tname|default:'Home'|upper}</h2>					
+				</div>
+				
+				<div class="content_p load">
+					{#include file="tabpage/tab_`$app_tab_info.fnname|default:"page"`.html"}
+				</div>
+				
+			</div>
+
+		</div>	
+		
+		<div class="clear"></div>
+		
+		{#include file="Footer.html"}
+	
+	</div>
+{#/block}

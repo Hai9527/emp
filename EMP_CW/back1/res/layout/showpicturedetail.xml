@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="fill_parent"
+	android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+	<ImageSwitcher android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:layout_centerVertical="true"
+		android:padding="15dip" android:layout_above="@+id/showpicturedetail_title"
+		android:layout_centerHorizontal="true" android:id="@+id/showpicturedetail_imageSwitcher"></ImageSwitcher>
+
+	<TextView android:layout_width="wrap_content" android:id="@+id/showpicturedetail_title"
+		android:text="title" android:textSize="16dip" android:layout_height="wrap_content"
+		android:layout_above="@+id/showpicturedetail_linearLayout_count"
+		android:layout_centerHorizontal="true" android:layout_marginBottom="17dip"></TextView>
+
+
+	 <LinearLayout android:id="@+id/showpicturedetail_linearLayout_count"
+		android:layout_alignParentBottom="true"
+		android:layout_alignParentLeft="true" android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+
+	</LinearLayout>  
+
+
+</RelativeLayout>
+ 

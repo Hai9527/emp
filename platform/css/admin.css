@@ -1,0 +1,70 @@
+.form{
+	width: 100%;
+	margin: 15px;
+	font-size:14px;
+}
+
+#head_tab{
+	background-color:#999;
+	height:30px;
+	text-align:center;
+}
+
+#head_tab p{
+	padding-top:7px;
+	color:#FFFFFF;
+}
+
+#head_tab a{
+	color:#FFFFFF;
+	font-size:15px;
+}
+
+#login p{
+	font-size:16px;
+}
+
+#login a{
+	color:#2171AD;
+	font-size:16px;
+}
+
+.create_form{
+	font-size:14px;
+	width:100%;
+	text-align: left;
+}
+
+.create_form th{
+	width:15%;
+	height: 30px;
+}
+.feature_form{
+	border: 1px solid #000000;
+	border-collapse: collapse;
+	width:50%;
+}
+
+.feature_form th, .feature_form td{
+	height: 25px;
+	border: 1px solid #000000;
+	text-align: center;
+}
+.feature_form th{
+	font-size:14px;
+	
+	height: 30px;
+}
+
+.feature_form td{
+	font-size:13px;
+	
+}
+
+/** note */
+.note h2{
+    font-family: "sans-serif";
+    font-size: 16px;
+    font-weight: bolder;
+    margin: 20px 0 10px;
+}

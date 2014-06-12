@@ -1,0 +1,15 @@
+			<div class="tabList">
+				<div class="scroll">
+					<ul id="sortable">
+						<!--li class="ui-state-default{#if $tid eq 0} selected{#/if} ui-state-disabled"><a href="?c=main&a=create&step=customize_feature&aid={#$app_info.aid}">Loading Page</a></li-->
+						{#if $app_tab_list neq ''}
+							{#foreach from=$app_tab_list item=item}
+						<li class="ui-state-default{#if $tid eq $item.tid} selected{#/if}{#if $item.tdefault eq -1} ui-state-disabled{#/if}" alt="{#$item.tid}"><a href="?c=main&a=create&step=customize_feature&aid={#$app_info.aid}&tid={#$item.tid}" title="{#$item.tname}">{#$item.tname|mb_truncate:10:"..."}</a>{#if $item.tdefault neq -1}<a href="javascript:void(0);" onclick="deleteTab({#$item.tid}, $(this));" class="close">x</a>{#/if}</li>
+							{#/foreach}
+						{#/if}
+						
+					</ul><br/><br/><br/>
+				</div>
+				<ul>You can drag and drop the tab to reorder. The new order can also be reflected as the same on the <a href="?c=main&a=create&step=add_feature&aid={#$aid}">Feature List </a>page.</ul>
+			</div>
+			<p></p>

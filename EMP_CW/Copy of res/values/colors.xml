@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<resources>
+	<drawable name="red">#7f00</drawable>
+	<drawable name="blue">#770000ff</drawable>
+	<drawable name="green">#7700ff00</drawable>
+	<drawable name="yellow">#77ffff00</drawable>
+
+	<drawable name="screen_background_black">#ff000000</drawable>
+	<drawable name="translucent_background">#e0000000</drawable>
+	<drawable name="transparent_background">#00000000</drawable>
+
+	<color name="solid_red">#f00</color>
+	<color name="solid_blue">#0000ff</color>
+	<color name="solid_green">#f0f0</color>
+	<color name="solid_yellow">#ffffff00</color>
+
+	<color name="red">#fd8d8d</color>
+	<color name="green">#9cfda3</color>
+	<color name="blue">#8d9dfd</color>
+	<color name="white">#FFFFFF</color>
+	<color name="black">#000000</color>
+	<color name="gray">#050505</color>
+
+	<color name="transparent">#00ffffff</color>
+	<color name="text_num_gray">#333</color>
+	<color name="listview_interval">#00000000</color>
+
+
+</resources>

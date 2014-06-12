@@ -1,0 +1,116 @@
+{#extends file='Main.Master.html'}
+{#block name=head}
+<script type="text/javascript" src="js/WebCalendar.js"></script>
+<script type="text/javascript">
+	$().ready(function(){addLister()})
+	function fromcheck(){
+		if($("input[name=from_date]").val() != '' && $("input[name=to_date]").val() != ''){
+			if($("input[name=from_date]").val()>$("input[name=to_date]").val()){
+				alert("From Date must earlier than To Date."); return false;
+			}else return true;
+		}
+		else if($("input[name=from_date]").val() == '' && $("input[name=to_date]").val() == ''){return true;}
+		else{
+			if($("input[name=from_date]").val() != ''){
+				return true;
+			}else{
+				alert("Please fill in From Date."); return false;
+			}
+		}
+
+	}
+	function toPage(num){
+		$(".search form").attr("action", window.location.href.split('&page')[0]+"&page="+num).submit();
+	}
+	function addLister(){
+		/*if($("option:selected").text()=="Gallery"){
+			
+		}*/
+		var gid = {#if $filer.gid!=null} {#$filer.gid} {#else} 0 {#/if};
+		
+		{#$filer.gid};
+		$.get("?c=comment&a=getGallery",{tid:$("option:selected").val()},function(data){
+			if(data) $(".search select").after(data);
+			else $("select[name=gid]").remove();
+			
+			if (gid > 0){
+				$("[name=gid] option[value="+gid+"]").attr("selected","selected");
+			}
+		})
+	}
+</script>
+{#/block}
+{#block name=content}
+
+	<div id="container">
+
+		{#include file="Header.html"}
+
+		<div id="divBody">
+
+			<div class="content">
+
+				<div class="breadcrumb">
+					<!-- <p class="nav"><a href="index.php">Home</a> > <span>My Apps</span></p> -->
+					<h2 class="title">Comment List</h2>
+				</div>
+				<div class="search">
+					<form action="" method="post" onsubmit="return fromcheck();">
+						<p style="margin: 5px 0;"><!--label>Data Name:&nbsp;</label><input type="text" name="data_name" value="{#$filer.data_name}" style="width: 100px;" />&nbsp;&nbsp;&nbsp;-->
+							<label>Type:&nbsp;</label>{#$tid}&nbsp;&nbsp;&nbsp;
+							<label>From Date:&nbsp;</label><input type="text" name="from_date" value="{#$filer.from_date}" style="width: 100px;" onclick="SelectDate(this,'yyyy-MM-dd')" readonly="readonly" />&nbsp;&nbsp;&nbsp;
+							<label>To Date:&nbsp;</label><input type="text" name="to_date" value="{#$filer.to_date}" style="width: 100px;" onclick="SelectDate(this,'yyyy-MM-dd')" readonly="readonly" />&nbsp;&nbsp;&nbsp;
+							<input type="hidden" value="{#$filer.aid}" name="aid" />
+							<input type="submit" value="Search" style="width:100px;"/></p/>
+							<input type="submit" value="Export Comment" name="export" style="display:none;"/></p/>
+							<!--span>(The keywords entered here should be based on username or email.)</span-->
+						</p>
+					</form>
+				</div>
+				<div>
+					<p class="btn"><a href="javascript:;" onclick="$('input[name=export]').click();" class="button">Export Comment</a></p>
+				</div>
+				<div class="content_p">
+
+					<table class="list">
+
+						<tr>
+
+							<!-- <th>ID</th> -->
+							<th>Title</th>
+							<th>Type</th>
+							<th>Comments</th>
+							<th>App User</th>
+							<th>Time Added </th>
+							<th width="20%">Action</th>
+
+						</tr>
+						{#foreach from=$comment_list item=item key=key}
+						<tr>
+							<!-- <td align="center">{#$item.com_id}</td> -->
+							<td>{#$item.data_name|mb_truncate:15:"..."}</td>
+							<td>{#$item.tab_name}</td>
+							<td>{#$item.comment|mb_truncate:30:"..."}</td>
+							<td>{#$item.cuser_name}</td>
+							<td>{#$item.ctime}</td>
+							<td><a href="?c=comment&a=deleteComment&com_id={#$item.com_id}" onclick="return confirm('Are you sure delete this record.')" class="button">Delete</a></td>
+						</tr>
+						{#foreachelse}
+						<tr>
+							<td colspan="6" style="text-align: center;">There is no associated data currently.</td>
+						</tr>
+						{#/foreach}
+					</table>
+					<div class="page"><div class="pageshow">{#$show_page}</div></div>
+				</div>
+
+			</div>
+
+		</div>
+
+		<div class="clear"></div>
+
+		{#include file="Footer.html"}
+
+	</div>
+{#/block}

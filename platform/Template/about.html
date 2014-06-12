@@ -1,0 +1,56 @@
+{#extends file='Main.Master.html'}
+{#block name=head}
+<script charset="utf-8" src="common/kindeditor/kindeditor-min.js"></script>
+<script charset="utf-8" src="common/kindeditor/lang/zh_CN.js"></script>
+<script charset="utf-8">
+	KindEditor.ready(function(K) {
+		editor = K.create('textarea[name="adescription"]', {
+			width : '500px',
+			height : '200px',
+			allowFileManager : true
+		});
+	});
+</script>
+{#/block}
+{#block name=content}
+
+	<div id="container">
+	
+		{#include file="Header.html"}
+	
+		{#include file="Course.html"}
+		
+		<div id="divBody">
+			
+			<div class="content">
+			
+				<div class="breadcrumb">
+					<p class="nav"><a href="index.php">Home</a> > <a href="index.php">My Apps</a> > <span>{#$step}</span></p>
+					<h2 class="title">{#$step}</h2>					
+				</div>
+				
+				<div class="content_p">
+					<form action="{#$action}" method="post">
+						<table class="form">
+							<tr>
+								<th>App Description *</th>
+								<td><textarea name="adescription">{#$app_info.adescription}</textarea></td>
+							</tr>
+							<tr>
+								<th></th>
+								<td><input type="submit" value="SUBMIT" class="input_btn" /></td>
+							</tr>					
+						</table>
+					</form>
+				</div>
+				
+			</div>
+
+		</div>	
+		
+		<div class="clear"></div>
+		
+		{#include file="Footer.html"}
+	
+	</div>
+{#/block}

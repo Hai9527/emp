@@ -1,0 +1,15 @@
+.jcarousel-skin-tango .jcarousel-item, .jcarousel-skin-tango .jcarousel-clip-horizontal  {
+	height: 130px;
+}
+.jcarousel-skin-tango .jcarousel-clip-horizontal, .jcarousel-skin-tango .jcarousel-container-horizontal{
+	width: 500px;
+}
+.jcarousel-skin-tango .jcarousel-prev-horizontal, .jcarousel-skin-tango .jcarousel-next-horizontal{
+	top: 60px;
+}
+
+.title{
+	display: block;
+	text-align: center;
+	line-height: 30px;
+}

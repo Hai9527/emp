@@ -1,0 +1,96 @@
+<script charset="utf-8">
+$().ready(function(){
+	$(".field").click(function(){
+		if($(this).attr("checked") == 'checked') {
+			$(this).next().val(1);
+			$(this).parent().find(".required").removeClass("hide");
+		}else {
+			$(this).next().val(0);
+			$(this).parent().find(".required").addClass("hide").find(".checkbox").removeAttr("checked");
+			$(this).parent().find(".required").find("input[name='fv_required[]']").val(0);
+		}
+	})
+	
+	$("span.required .checkbox").click(function(){
+		if($(this).attr("checked") == 'checked') {
+			$(this).next().val(1);
+		}else {
+			$(this).next().val(0);
+		}
+	})
+	
+	$('input[name=edit]').click(function() {
+		$('input[name=submit]').removeAttr("disabled");
+		$('input[name=edit]').attr("disabled","disabled");
+	});
+})
+
+/**
+ *提交表单验证
+ ***/
+function pageForm(){
+	if($("input.field:checked").length < 1){$(".msg").text('Please select Basic Form Fields.'); return false; }
+	else if($("textarea[name=fintroduction]").val() == '') {$(".msg").text('Please fill in Introduction Text.'); return false; } 
+	else if($("textarea[name=lmessage]").val() == '') {$(".msg").text('Please fill in Thank You Message.'); return false; } 
+	return true;
+}
+</script>
+
+Form Setting[<a href="?c=form&a=formList&tid={#$tid}" class="iframe">From Data Management</a>]
+<form action="?c=form&a=saveForm&tid={#$tid}" onsubmit="return pageForm();" method="post">
+<table class="form">
+	<tr>
+		<th valign="top">Basic Form Fields</th>
+		<td>
+			<table class="form">
+			{#if $form_view_list neq ""}
+			{#foreach from=$form_view_list item=item key=key}
+				{#if ($key+1)%2 eq 1}<tr>{#/if}
+				<td width="50%">
+					<input type="hidden" name="fvid[]" value="{#$item.fvid}"/>
+					<input type="hidden" name="fv_name[]" value="{#$item.fv_name}"/>
+					<input type="checkbox" class="checkbox field"{#if $item.vis_hits eq 1} checked="checked"{#/if} />{#$item.fv_title}
+					<input type="hidden" value="{#$item.vis_hits}" name="vis_hits[]" />
+					&nbsp;
+						{#if $item.temp|@count>1}
+							{#foreach from=$item.temp item=titem key=k}
+								<input type="radio" name="{#$titem.fv_name}" value="{#$titem.fv_value}" {#if $k eq 0}checked="checked"{#/if} class="radio" onclick="return false;"> {#$titem.fv_text}
+							{#/foreach}
+						{#/if}
+					&nbsp;
+					<span class="required{#if $item.vis_hits eq 0} hide{#/if}">(&nbsp;
+						<input type="checkbox" class="checkbox"{#if $item.fv_required eq 1} checked="checked"{#/if} />Required
+						<input type="hidden" value="{#$item.fv_required}" name="fv_required[]" />
+					&nbsp;)</span>
+				</td>
+				{#if ($key+1)%2 eq 0}</tr>{#/if}
+			
+			{#/foreach}
+			{#/if}
+			</table>
+		</td>
+	</tr>
+			
+	<tr>
+		<th valign="top">Introduction Text *</th>
+		<td><textarea name="fintroduction" style="width: 500px; height: 200px;">{#$form_info.fintroduction}</textarea></td>
+	</tr>
+	
+	<tr>
+		<th valign="top">Thank You Message *</th>
+		<td><textarea name="lmessage" style="width: 500px; height: 100px;">{#$form_info.lmessage}</textarea></td>
+	</tr>
+	
+	<tr>
+		<th></th>
+		<td><input type="submit" value="Save" name="submit" class="input_btn"/>
+			<!-- <input type="button" value="Edit" name="edit" class="input_btn"{#if $tid eq ''} style="display:none;"{#/if} /> -->
+		</td>
+	</tr>
+
+	<tr>
+		<th></th>
+		<td><p class="msg"></p></td>
+	</tr>
+</table>
+</form>

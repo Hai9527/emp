@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+android:id="@+id/mainlayout"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+xmlns:android="http://schemas.android.com/apk/res/android"
+>
+  <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="fill_parent" 
+        android:layout_height="fill_parent" 
+        />  
+
+<SlidingDrawer
+        android:id="@+id/drawer"
+        android:layout_width="250dip"
+        android:layout_height="100dip"
+        android:handle="@+id/layout1"
+        android:content="@+id/content"
+		android:gravity="center"
+		android:layout_alignParentRight="true"
+        android:orientation="horizontal"
+     >
+        <LinearLayout
+           android:id="@id/layout1"
+           android:layout_width="35px"
+           android:layout_height="50px"
+           android:gravity="center"
+           android:background="#00000000"
+        >
+           <ImageView
+               android:id="@+id/my_image"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:src="@drawable/left1"
+           />
+        </LinearLayout>
+		<LinearLayout android:id="@id/content"
+				android:layout_width="fill_parent"
+				android:orientation="vertical" android:layout_height="wrap_content"
+				android:gravity="center"
+				android:background="#ff000000">
+       <Button android:id="@+id/attend"
+					android:layout_width="150dip" android:layout_height="wrap_content"
+					android:background="#ffffffff"
+					android:text="@string/attending" android:layout_marginTop="10dip">
+				</Button>
+				<Button android:id="@+id/mayattend"
+					android:layout_width="150dip" android:layout_height="wrap_content"
+					android:background="#ffffffff"
+					android:text="@string/may_attend" android:layout_marginTop="10dip">
+				</Button>
+				</LinearLayout>
+    </SlidingDrawer>		
+</RelativeLayout>

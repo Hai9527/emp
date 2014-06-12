@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:stretchColumns="0,1,2" android:layout_width="fill_parent" android:layout_height="wrap_content">
+	<TableRow android:layout_width="wrap_content" android:gravity="center_vertical"
+		android:layout_height="wrap_content" android:layout_marginBottom="20dip"
+		android:layout_marginTop="10dip">
+		<LinearLayout android:layout_height="wrap_content"
+			android:layout_width="wrap_content" android:orientation="horizontal"
+			android:paddingLeft="20dip" android:layout_gravity="center_horizontal"
+			android:gravity="center_vertical|center_horizontal">
+			<ImageView android:layout_height="wrap_content"
+				android:layout_weight="1" android:layout_width="wrap_content"
+				 android:id="@+id/comment_interact_view_imageView_saw"></ImageView>
+			<TextView android:text="" android:layout_marginLeft="10dip"
+				android:layout_weight="1" android:id="@+id/comment_interact_view_textView_sawcount"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+
+		</LinearLayout>
+
+		<LinearLayout android:layout_height="wrap_content"
+			android:layout_width="wrap_content" android:orientation="horizontal"
+			android:gravity="center_vertical|center_horizontal">
+			<ImageView android:layout_height="wrap_content"
+				android:layout_weight="1" android:layout_width="wrap_content"
+				 android:id="@+id/comment_interact_view_imageView_like"></ImageView>
+			<TextView android:text="" android:layout_weight="1"
+				android:id="@+id/comment_interact_view_textView_likecount"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:layout_marginLeft="10dip"></TextView>
+
+		</LinearLayout>
+		<LinearLayout android:layout_height="wrap_content"
+			android:layout_width="wrap_content" android:orientation="horizontal"
+			android:gravity="center_vertical|center_horizontal">
+			<ImageView android:layout_height="wrap_content"
+				android:layout_weight="1" android:layout_width="wrap_content"
+				  android:id="@+id/comment_interact_view_imageView_edit"></ImageView>
+			<TextView android:text="" android:layout_marginLeft="10dip"
+				android:layout_weight="1"
+				android:id="@+id/comment_interact_view_textView_editcount"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+
+		</LinearLayout>
+
+	</TableRow>
+</TableLayout>
+  
+ 

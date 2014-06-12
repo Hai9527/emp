@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
+
+    <ImageView
+        android:id="@+id/bottomshortcut_imageView_music"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dip"
+        android:src="@drawable/music_icon" >
+    </ImageView>
+
+    <ImageView
+        android:id="@+id/bottomshortcut_imageView_playpause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dip"
+        android:src="@drawable/play_icon" >
+    </ImageView>
+
+    <LinearLayout
+        android:id="@+id/bottomshortcut_linearLayout_music"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dip"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/bottomshortcut_imageView_musicnext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dip"
+            android:src="@drawable/next_icon" >
+        </ImageView>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/bottomshortcut_musictitle"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:lines="1"
+                android:text="" >
+            </TextView>
+
+            <SeekBar
+                android:id="@+id/bottomshortcut_mseekBar"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="@drawable/progress_bg"
+                android:progressDrawable="@drawable/seekbar_style"
+                android:thumb="@drawable/seekbar_thumb"
+                android:thumbOffset="0dip" >
+            </SeekBar>
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/bottomshortcut_imageView_news"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dip"
+        android:layout_marginRight="8dip"
+        android:src="@drawable/map_icon" >
+    </ImageView>
+
+    <LinearLayout
+        android:id="@+id/bottomshortcut_linearLayout_news"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" >
+
+        <ViewFlipper
+            android:id="@+id/bottomshortcut_news_flipper"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:flipInterval="3500"
+            android:gravity="center_horizontal" >
+
+            <TextView
+                android:id="@+id/bottomshortcut_newstitle1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/bottomshortcut_newstitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:text="" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/bottomshortcut_newstitle3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:text="" >
+            </TextView>
+        </ViewFlipper>
+    </LinearLayout>
+
+</LinearLayout>

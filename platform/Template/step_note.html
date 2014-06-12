@@ -1,0 +1,31 @@
+{#extends file='Main.Master.html'}
+{#block name=head}
+<link rel="stylesheet" href="css/popup.css">
+<script charset="utf-8">
+	$().ready(function(){
+		parent.$.colorbox.resize({width:400, height:280});
+		setTimeout('hrefGoNext()', 5000);
+	})
+	
+	function hrefGoBack(){
+		parent.window.location.href="{#$back}"
+	}
+	function hrefGoNext(){
+		parent.window.location.href="{#$next}"
+	}
+</script>
+{#/block}
+{#block name=content}
+
+	<div id="container">
+			
+			<div class="content popcontent" style="width: auto;">
+				
+				<div class="content_p" style="margin: 20px; font-size: 16px;">
+					<p>{#$message}</p><br/>
+					<a href="javascript:hrefGoBack();" class="button" style="margin-left:50px;margin-right:50px;">back</a>
+					<a href="javascript:hrefGoNext();" class="button">next step</a>
+				</div>				
+			</div>
+	</div>	
+{#/block}
